@@ -43,6 +43,10 @@ lab_golden_delay_return:
 .type lab_golden_shortcut_retry_hook,%function
 lab_golden_shortcut_retry_hook:
     save_context
+    mov w1,w8
+    mov x0,x19
+    bl lab_star_priority_reason
+    cbnz w0,.Lstar_priority_use
     mov x0,x19
     bl lab_golden_repeat_allowed
     cbnz w0,.Lgolden_shortcut_repeat
@@ -51,6 +55,9 @@ lab_golden_shortcut_retry_hook:
     cbnz w0,.Lboost_finish_urgent
     mov x0,x19
     bl lab_star_first_use_urgent
+    cbnz w0,.Lboost_finish_urgent
+    mov x0,x19
+    bl lab_finish_mushroom_urgent
     cbz w0,.Lgolden_shortcut_native
 .Lboost_finish_urgent:
     restore_context
@@ -73,6 +80,11 @@ lab_golden_shortcut_retry_return:
     b .
 .global lab_golden_shortcut_ordinary_return
 lab_golden_shortcut_ordinary_return:
+    b .
+.Lstar_priority_use:
+    restore_context
+.global lab_star_priority_use_return
+lab_star_priority_use_return:
     b .
 .size lab_golden_shortcut_retry_hook,.-lab_golden_shortcut_retry_hook
 

@@ -1,7 +1,7 @@
+build/
+release/
+dist/
+.venv/
 __pycache__/
 *.pyc
-.venv/
-build/
-dist/
-GAMEBANANA.md
-release/
+GAMEBANANA*

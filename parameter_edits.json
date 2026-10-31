@@ -2,7 +2,7 @@
   "AIRace.bin": {
     "size": 15796,
     "base_sha256": "0aca24cf29736137dbdfc3eb813404b39d9c7519a50a58b3932cec4a92c5c639",
-    "result_sha256": "4ed89196e72bc938e45b1113069ecae9685d2afdc5d49f933b156ab86a7810fc",
+    "result_sha256": "37318e6d9a3ee268c111546ac4f31f0dceb9ace2b37ad621d8c78b20862bc632",
     "edits": [
       {
         "offset": 60,
@@ -325,9 +325,9 @@
         "after": "ae47"
       },
       {
-        "offset": 4280,
-        "before": "000000",
-        "after": "666666"
+        "offset": 4282,
+        "before": "00",
+        "after": "40"
       },
       {
         "offset": 4284,
@@ -467,17 +467,17 @@
       {
         "offset": 4488,
         "before": "9a99193e3333b33e",
-        "after": "0ad7233dcdcc4c3d"
+        "after": "cdcccc3dcdcc4c3d"
       },
       {
-        "offset": 4498,
-        "before": "9643",
-        "after": "61c4"
+        "offset": 4497,
+        "before": "009643",
+        "after": "401cc5"
       },
       {
         "offset": 4501,
         "before": "80a2",
-        "after": "00e1"
+        "after": "c0da"
       },
       {
         "offset": 4504,
@@ -486,33 +486,33 @@
       },
       {
         "offset": 4508,
-        "before": "295c8f",
-        "after": "cdcccc"
+        "before": "295c8f3dcdcccc3d9a99193e",
+        "after": "0000003e9a99193ecdcccc3d"
       },
       {
-        "offset": 4512,
-        "before": "cdcccc3d9a99193e",
-        "after": "713d0a3e1f85eb3d"
+        "offset": 4522,
+        "before": "9643",
+        "after": "fa44"
       },
       {
-        "offset": 4521,
-        "before": "009643",
-        "after": "80bb44"
+        "offset": 4526,
+        "before": "a244",
+        "after": "bb45"
       },
       {
-        "offset": 4525,
-        "before": "80a244",
-        "after": "007a45"
+        "offset": 4534,
+        "before": "cc",
+        "after": "4c"
       },
       {
-        "offset": 4532,
+        "offset": 4536,
         "before": "cdcccc",
         "after": "295c0f"
       },
       {
-        "offset": 4539,
-        "before": "bd9a9919be",
-        "after": "bc8fc275bc"
+        "offset": 4540,
+        "before": "9a9919be",
+        "after": "00000080"
       }
     ]
   },

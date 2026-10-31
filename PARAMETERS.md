@@ -1,4 +1,4 @@
-# Parameters — v0.2.0-rc.1
+# Parameters — v0.2.0
 
 [Exact tables](parameters.json) · [Every byte edit](parameter_edits.json)
 
@@ -8,24 +8,24 @@
 |---|---:|---:|---:|---|
 | Easy | 0.975 | 0.5 | 1 | 0, 0, 0, 0 |
 | Normal | 1 | 0.5 | 1 | 0, 0, 0, 0 |
-| Hard | 1.01 | 0.9 | 1 | 0, 0, 0, 0 |
+| Hard | 1.01 | 0.75 | 1 | 0, 0, 0, 0 |
 | Expert | 1.02 | 0.75 | 1 | 0, 0, 0, 0 |
 
 ## MPRA — AIParamTable
 
 | Field | Value |
 |---|---|
-| AddSpeedRatio_Up_ByFormation | 0.04 |
+| AddSpeedRatio_Up_ByFormation | 0.1 |
 | AddSpeedRatio_Down_ByFormation | 0.05 |
-| DisMin_CatchUp / DisMax_CatchUp | -900 / 1800 |
-| DisMin_CatchDown / DisMax_CatchDown | 1500 / 4000 |
+| DisMin_CatchUp / DisMax_CatchUp | -2500 / 1750 |
+| DisMin_CatchDown / DisMax_CatchDown | 2000 / 6000 |
 
 | Difficulty | CatchUp | CatchDown |
 |---|---:|---:|
 | Easy | 0.1 | -0.1 |
-| Normal | 0.1 | -0.035 |
-| Hard | 0.135 | -0.025 |
-| Expert | 0.115 | -0.015 |
+| Normal | 0.125 | -0.05 |
+| Hard | 0.15 | -0.035 |
+| Expert | 0.1 | -0 |
 
 FormationSpan stores increments. Native construction accumulates and scales them into formation targets.
 

@@ -9,7 +9,9 @@ extern char lab_module_start[];
 extern u32 lab_shared_jobs_queue_boundary(u64,void *,QueueThreadSnapshot *);
 extern u32 lab_shared_jobs_task_prerequisite(u64,void *);
 #define SJ_EXPORT __attribute__((visibility("default")))
-SJ_EXPORT const SharedSlotConfig lab_shared_slot_config={1,1,2700,1800,240,2,{0,0}};
+SJ_EXPORT const SharedSlotConfig lab_shared_slot_config={1,1,2400,1200,480,2,{0,0}};
+/* ABI, enabled, first, interval, nominal duration, actor limit, midfield band. */
+SJ_EXPORT const u32 lab_rival_opportunity_config[8]={1,1,2400,1200,480,2,3,6};
 SJ_EXPORT SharedSlotRecord lab_shared_slot_record;
 /* prepare, provenance, lifetime, queue, changed, selected, applied, restored */
 SJ_EXPORT u64 lab_shared_slot_counters[8];
@@ -118,6 +120,26 @@ static u32 collect(const Scope *s,u32 *available,u32 *quiet,u32 *slots){
     }
     return 1;
 }
+/* Select one eligible midfield and one rear actor when both bands remain
+ * unvisited. Exhausted/unsafe bands fall back to other unvisited actors.
+ * This pure choice consumes no game RNG and never selects front slots0..2. */
+static u32 pick_band(u32 mask,const u32 *slots,u32 start,u32 lo,u32 hi){
+    for(u32 k=0;k<12;k++){
+        u32 i=(start+k)%12;
+        if((mask&(1u<<i))&&slots[i]>=lo&&slots[i]<=hi)return 1u<<i;
+    }
+    return 0;
+}
+SJ_EXPORT u32 lab_rival_choose_mask(u32 mask,const u32 *slots,u32 actors,u32 start,u32 cycle){
+    if(!slots||mask>>12||!actors||actors>2||start>=12)return 0;
+    u32 first=(cycle&1)?pick_band(mask,slots,start,7,11):pick_band(mask,slots,start,3,6);
+    if(!first)first=pick_band(mask,slots,start,3,11);
+    if(actors==1||!first)return first;
+    u32 rest=mask&~first;
+    u32 second=(cycle&1)?pick_band(rest,slots,(start+6)%12,3,6):pick_band(rest,slots,(start+6)%12,7,11);
+    if(!second)second=pick_band(rest,slots,(start+6)%12,3,11);
+    return first|second;
+}
 static void fatal(void){__atomic_store_n(&lab_shared_slot_record.fault,1,__ATOMIC_RELEASE);__builtin_trap();}
 SJ_EXPORT void lab_shared_jobs_prepare(const void *context,SharedSlotJobFrame *f,u64 sp){
     *f=(SharedSlotJobFrame){.magic=0x31424f4a534148ull,.native_sp=sp,.thread=thread()};
@@ -154,8 +176,8 @@ SJ_EXPORT void lab_shared_jobs_prepare(const void *context,SharedSlotJobFrame *f
     if(!next.selected_mask&&a.tick>=next.next_tick){
         u32 unused=quiet&~next.visited_mask;
         if(!unused){unused=quiet;next.visited_mask=0;}
-        u32 start=mix((u32)a.epoch^(u32)(a.epoch>>32)^next.cycle*0x9e3779b9u)%12,n=0;
-        for(u32 k=0;k<12&&n<cfg->actors;k++){u32 id=(start+k)%12;if(unused&(1u<<id)){next.selected_mask|=1u<<id;n++;}}
+        u32 start=mix((u32)a.epoch^(u32)(a.epoch>>32)^next.cycle*0x9e3779b9u)%12;
+        next.selected_mask=lab_rival_choose_mask(unused,slots,cfg->actors,start,next.cycle);
         if(next.selected_mask){next.cycle++;next.visited_mask|=next.selected_mask;next.end_tick=a.tick+cfg->duration_ticks;
             next.next_tick=a.tick+cfg->interval_ticks;count(5);}
         else next.next_tick=a.tick+60;

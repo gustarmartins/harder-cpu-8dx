@@ -1,3 +1,5 @@
+/* Extra local operands for a refused future interval; no new reads. */
+EXPORT const u32 lab_snaking_future_interval_vectors_config[4]={1,114,15,21};
 /* Read-only owned-hop future coverage. Current cones, planes and full charge
  * horizon remain mandatory. No route search, steering, native state or pose
  * writes. Qualified selected joints use the existing exact bisector rule. */
@@ -65,7 +67,7 @@ static u32 hfr_future(const void *physics,void *course,void *base,u64 a,u64 z,
         for(u32 mode=0;mode<2;mode++){
             const float *axis=mode?v->pending:v->motion;
             if(!hnb_interval(e->sd,e->sn,e->sp,so,axis,0,0,0,&e->s[mode])||
-               !hnb_interval(e->bd,e->bn,e->bp,bo,axis,clearance,0,1,&e->b[mode]))return hfd_future_fail(probe,114,segment,0xffffffffu,mode,a,z,ba,bz,(const float[]){e->sn,e->sp,e->bn,e->bp,clearance,required,axis[0],axis[1],axis[2],so[0],so[1],so[2],bo[0],bo[1],bo[2]},15);
+               !hnb_interval(e->bd,e->bn,e->bp,bo,axis,clearance,0,1,&e->b[mode]))return hfd_future_fail(probe,114,segment,0xffffffffu,mode,a,z,ba,bz,(const float[]){e->sn,e->sp,e->bn,e->bp,clearance,required,axis[0],axis[1],axis[2],so[0],so[1],so[2],bo[0],bo[1],bo[2],e->sd[0],e->sd[1],e->sd[2],e->bd[0],e->bd[1],e->bd[2]},21);
             if(segment&&!hnb_selected_join(edges[segment-1].sd,edges[segment-1].sn,e->sd,e->sn,
                 so,axis,&edges[segment-1].s[mode],&e->s[mode]))return hfd_future_fail(probe,115,segment,0,mode,a,z,ba,bz,(const float[]){edges[segment-1].sn,e->sn,required,edges[segment-1].sd[0],edges[segment-1].sd[1],edges[segment-1].sd[2],e->sd[0],e->sd[1],e->sd[2],so[0],so[1],so[2],axis[0],axis[1],axis[2]},15);
             if(segment)scn_join(edges[segment-1].bd,e->bd,bo,axis,

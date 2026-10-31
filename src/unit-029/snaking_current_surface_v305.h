@@ -9,14 +9,15 @@ static u32 hcs_landed(const void *physics,const SnakeHopFrame *frame,HopVectors 
     if(!history||history->landing!=1||frame->valid!=1||frame->reserved!=1||
        frame->physics!=(u64)physics||!ptr(frame->drift)||
        q(physics,0x110)!=frame->drift||
-       b(physics,0x200)!=1||b(physics,0x201)!=1||
-       w(physics,0x26c)||f(physics,0x274)!=0.f||!hf_environment(physics)||
+       (!sch_current(physics,frame,history)&&(b(physics,0x200)!=1||b(physics,0x201)!=1||
+       w(physics,0x26c)||f(physics,0x274)!=0.f))||!hf_environment(physics)||
        !ngs_owned_history(physics,frame))return 0;
     u32 ds=w((void *)frame->drift,0x10);
     if((ds!=4&&ds!=5)||frame->pad!=ds)return 0;
 
+    u32 short_contact=sch_current(physics,frame,history);
     NativeAcceptedGroundTarget accepted;
-    if(!ngs_native_ground_target(physics)&&
+    if(!short_contact&&!ngs_native_ground_target(physics)&&
        !ngs_retained_ground_target(physics,frame)&&
        !ngs_accepted_ground_target(physics,frame,&accepted))return 0;
 

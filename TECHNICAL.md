@@ -1,18 +1,20 @@
-# Native implementation — v0.2.0-rc.1
+# Native implementation — v0.2.0
 
 Target: MK8DX **3.0.5**, title `0100152000022000`, main build ID `FE941ED5BA14BE5D505698DA1BBF4FE7`.
 
-The AArch64 `subsdk9` module is linked at main-relative offset `0x1A49000`. The source profile contains **96 translation units**, **67 module hooks**, exact return branches and source hashes. `main_overlays.json` and the compiled finish companion provide the remaining main-image changes. The combined patch covers **4,912 bytes**.
+The AArch64 `subsdk9` module is linked at main-relative offset `0x1A49000`. The source profile contains **104 translation units**, **71 module hooks**, exact return branches and source hashes. `main_overlays.json` and the compiled finish companion provide the remaining main-image changes. The combined patch covers **4,928 bytes**.
 
 ## Driving
 
 `snaking_v305.c` writes movement-packet requests through the native driving pipeline. Opportunity planning checks selected and BASE route geometry, available width, charge time, path continuity, current road normals and the next turn. Steering compensation and countersteering maintain the planned corridor. Native drift state and physical charge produce the turbo release.
 
-The hop and ground helpers account for current and retained native road queries, the next airborne update, landing interpolation, selected-route changes and adjacent path segments. Qualified predecessor/successor geometry supports continuation across a path joint.
+The hop and ground helpers account for current and retained native road queries, the remaining native hop phase, landing interpolation, selected-route changes and adjacent path segments. Qualified predecessor/successor geometry supports continuation across a path joint, including after crossing its endpoint. The forecast retains clearance, contact and remaining charge-horizon checks.
 
 `driving_quality_v305.c` and its corner helpers evaluate longer holds toward orange/purple. The corner geometry check first runs the chassis-frame forecast. A fallback can repeat the full forecast using a matching current native road target when contact, ordinary-ground state, ownership and directional agreement qualify.
 
 `bounded_drift_heading_v305.c` applies bounded heading adjustments to eligible maneuvers. Earlier-entry feedback, inward-input qualification, near-tier completion and directional clearance remain separate stages in the native controller.
+
+`traffic_response_v305.c` upgrades the native probability refusal for eligible local CPUs reacting to CarA, TruckA or Bus objects. Native detection, RNG advancement and subsequent geometry/state checks remain active.
 
 ## Speed caps and charging
 
@@ -49,11 +51,17 @@ Moving ladder increments retain their total effective depth. A selected group's 
 
 For gap error `e` and a half-strength distance `h` derived from local spacing, the soft formation fraction is `e / (h + abs(e))`. Up or Down scales the applicable sign. This keeps correction strength responsive over large gaps.
 
-The shared-slot hook brackets the native CPU-job submit/wake/join interval with a 384-byte invocation frame. It restores owned slot labels after joined work. Native promotions update qualified subgroup membership and ordering at their manager boundary.
+The shared-slot hook brackets the native CPU-job submit/wake/join interval with a 384-byte invocation frame. It restores owned slot labels after joined work. Selection begins at tick 2400, repeats every 1200 ticks and grants a nominal 480-tick opportunity to at most two CPUs. It prefers one unvisited native-slot 03–06 racer and one 07–11 racer, with a fallback to eligible unvisited members of either band. Existing front subgroups and ordering remain intact. Entry, expiry and skipped-update reentry require suitable driving states.
 
 ## Items and finishing
 
 Golden repetition, ordinary Mushroom waiting, active-Star shortcut selection, first-place holding and Horn/Star reactions retain their native item-admission paths. Finish-urgency helpers use remaining course progress and the current driving estimate to shorten suitable Golden/Star waits.
+
+Ready Star selector 8 in planner state 3 gains a use request at a selected tagged shortcut, after 180 held-state updates, within a 480-update finish horizon, or against a qualified nearby/closing active Bullet Bill. The priority path admits ordinary boost/drift states while retaining inventory, ownership, existing-protection and damage/recovery checks.
+
+Ready Boo selector 22 in planner state 2 shares the timed-item hook at `main+0x61EC0` with Bullet urgency. Native `0x5FB50` admission runs first. An owned ready slot with stock 1 and planner age at least 6 can react to qualified Banana/Bob-omb hazards, nearby Green/Red Shells or a Blue Shell's attack wind-up. It then follows native direction selection at `0x61EF0` and request publication through `0x5F160`. Native activation establishes Boo protection.
+
+The finish forecast uses remaining native lap/section progress and the maximum of current forward speed, ordinary cap and boost cap. Saved Mushrooms receive a 180-update horizon, extended to 600 when a ready owned Bullet is queued behind them. The queued-Bullet path also permits suitable Mushroom use through native drift states 4/5; active-boost spacing and the remaining route gates still apply. Bullet countdown urgency uses a 480-update horizon. These horizons are planning estimates at the sampled speed.
 
 The five-course Lightning policy raises a qualifying final-lap CPU's normal-distance curve evaluation to at least the curve value at normalized distance `0.3`. Native item masks, rank groups, cooldowns and RNG still select the item. The eligible initial Lightning wait changes from `240–479` to `60–119` planner updates.
 
@@ -61,7 +69,7 @@ The five-course Lightning policy raises a qualifying final-lap CPU's normal-dist
 
 ## Build
 
-Reference toolchain: **Clang/LLD 23.1.3**, Python 3 and **pyelftools 0.32**.
+Reference toolchain: **Clang/LLD 23.1.4**, Python 3 and **pyelftools 0.32**.
 
 ```sh
 python3 -m venv .venv

@@ -11,7 +11,7 @@ static u32 sjg_occupation(const void *physics,const void *older,
        !hf_intent(physics,older,joint,v,0,pd,&pn,&pp)||
        !hf_intent(physics,joint,following,v,0,nd,&nn,&np)||
        !(pp>pn)||!(np<0.f)||
-       !hf_edge(pd,pn,v)||!hf_edge(nd,nn,v)||!hnb_straight(pd,pn,nd,nn))return 0;
+       !hnb_future_edge(pd,pn,pp,v)||!hf_edge(nd,nn,v)||!hnb_straight(pd,pn,nd,nn))return 0;
     float previous_offset[3],next_offset[3];
     for(u32 i=0;i<3;i++){
         float position=f(physics,0x2c+4*i);

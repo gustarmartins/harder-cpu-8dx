@@ -155,6 +155,8 @@ static u32 ca_cover(BfbInterval *ranges,u32 n,float travel){
 #include "corner_arc_selected_successor_v305.h"
 #include "corner_arc_mixed_bend_v305.h"
 #include "corner_native_road_plane_v305.h"
+#include "corner_future_plane_v305.h"
+#include "corner_edge_location_v305.h"
 static u32 ca_geometry_frame(ArcOwner *c,float *usable,const CornerArcState *s,u32 road){
     ArcGeometryPayload d;cg_init(&d,c,s);
     void *physics=(void *)c->physics;
@@ -175,7 +177,7 @@ static u32 ca_geometry_frame(ArcOwner *c,float *usable,const CornerArcState *s,u
     if(!be_span(a,0x374)||!be_span(z,0x374))return cg_fail(c,&d,8,0);
     ArcPair edges[12];u32 count=0,bends=0,keys[13];float sel_total=0,base_total=0;
     float delta[3],length2,projection;
-    if(!co_intent(c,(void *)a,(void *)z,1.f,.0025f,0,delta,&length2,&projection,9,0))return cg_fail(c,&d,9,0);
+    if(!cel_locate(c,(void *)a,(void *)z,delta,&length2,&projection,9,0))return cg_fail(c,&d,9,0);
     if(projection<0){z=a;a=q(route,0x68);d.a=a;d.z=z;if(!be_span(a,0x374))return cg_fail(c,&d,10,0);}
     else if(projection>length2){if(!css_next(c,&a,&z))return cg_fail(c,&d,11,1);d.a=a;d.z=z;}
     ArcEdge base_lead;u32 base_prefix=0,base_lead_key=0;
@@ -189,7 +191,7 @@ static u32 ca_geometry_frame(ArcOwner *c,float *usable,const CornerArcState *s,u
         u64 ba=be_point((void *)c->base_course,ka),bz=be_point((void *)c->base_course,kz);d.ba=ba;d.bz=bz;
         if(!ba||!bz)return cg_fail(c,&d,14,0);
         d.radial=0;u32 prefix_reason=0;
-        if(!cp_edge(c,(void *)a,(void *)z,!i,0,&edges[i].selected,15,&prefix_reason)){
+        if(!cfp_edge(c,(void *)a,(void *)z,!i,0,&edges[i].selected,15,&prefix_reason,i!=0)){
             if(i&&prefix_reason==7)break;
             return cg_fail(c,&d,15,0);
         }
@@ -197,13 +199,13 @@ static u32 ca_geometry_frame(ArcOwner *c,float *usable,const CornerArcState *s,u
         d.radial=1;cg_clear_edge(&d);
         if(!i){
             float bd[3],bl,bp;
-            if(!co_intent(c,(void *)ba,(void *)bz,1.f,.0025f,0,bd,&bl,&bp,16,1))return cg_fail(c,&d,16,0);
+            if(!cel_locate(c,(void *)ba,(void *)bz,bd,&bl,&bp,16,1))return cg_fail(c,&d,16,0);
             if(bp<0){
                 if(!cmb_base_lead(c,(void *)ba,(void *)bz,&base_lead,&base_lead_key))return cg_fail(c,&d,16,0);
                 base_prefix=1;
             }
         }
-        if(!cp_edge(c,(void *)ba,(void *)bz,!i&&!base_prefix,1,&edges[i].base,16,&prefix_reason)){
+        if(!cfp_edge(c,(void *)ba,(void *)bz,!i&&!base_prefix,1,&edges[i].base,16,&prefix_reason,i!=0||base_prefix)){
             if(i&&prefix_reason==7)break;
             return cg_fail(c,&d,16,0);
         }

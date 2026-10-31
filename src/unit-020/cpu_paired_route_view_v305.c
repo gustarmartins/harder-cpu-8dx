@@ -12,6 +12,8 @@ static u32 w(const void*p,u32 o){return *(const u32*)((const u8*)p+o);}
 static u8 b(const void*p,u32 o){return *((const u8*)p+o);}
 static u32 ptr(u64 p){return p>=0x10000 && !(p&7) && p<(1ull<<39)-0x1000;}
 
+#include "rabbit_route_scope_v305.h"
+
 EXPORT void *lab_cpu_paired_route_view(void *driver,void *original,void *manager,u64 base){
     if(!ptr((u64)driver)||!ptr((u64)original)||!ptr((u64)manager)||
        b(driver,0xc4)||b(driver,0xad)||b(driver,0xae)||b(driver,0xaf))return original;
@@ -21,8 +23,9 @@ EXPORT void *lab_cpu_paired_route_view(void *driver,void *original,void *manager
     u64 race=q((void*)group,0x28),role=q((void*)adapter,0x48),physics=q((void*)adapter,0x50);
     if(!ptr(race)||q((void*)race,0xb0)!=group||!ptr(role)||!ptr(physics)||
        q((void*)role,0x28)!=physics||q((void*)physics,0xf8)!=role||
-       b((void*)role,0xd0)||b((void*)role,0xd2)!=1||b((void*)role,0xd3)!=1||
+       b((void*)role,0xd2)!=1||b((void*)role,0xd3)!=1||
        b((void*)role,0xe7)||w((void*)role,0xa8)>=12)return original;
+    if(b((void*)role,0xd0)&&!lab_rabbit_route_scope(driver,(void *)role,(void *)physics,base))return original;
     u64 ai=q((void*)role,0x18);
     if(!ptr(ai)||q(driver,0x90)!=ai||q((void*)ai,0x10)!=role||
        q((void*)physics,0x100)!=ai)return original;

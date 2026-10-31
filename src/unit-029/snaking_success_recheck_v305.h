@@ -5,10 +5,10 @@
  * planner has qualified their overlap. This helper never writes game objects. */
 EXPORT const u32 lab_snaking_success_recheck_config[4]={1,6,3,0};
 
-EXPORT u32 lab_snaking_success_recheck(void *physics,void *role,u32 racer,u32 previous){
+static u32 ssr_checked(void *physics,void *role,u32 racer,u32 previous,u32 reference){
     if(racer>=12||!previous||!ptr((u64)physics)||!ptr((u64)role)||
        q(physics,0xf8)!=(u64)role||q(role,0x28)!=(u64)physics||
-       b(role,0xd0)||b(role,0xd2)!=1||b(role,0xd3)!=1||
+       (!reference&&b(role,0xd0))||b(role,0xd2)!=1||b(role,0xd3)!=1||
        !b(role,0xe1)||b(role,0xe7)||w(role,0x1e4)||
        (w(role,0x1cc)&0x01204018u))return previous;
     u64 dash=q(physics,0x118);
@@ -25,4 +25,19 @@ EXPORT u32 lab_snaking_success_recheck(void *physics,void *role,u32 racer,u32 pr
     }
     u32 retry=lab_snaking_success_recheck_config[1]+racer%lab_snaking_success_recheck_config[2];
     return previous<retry?previous:retry;
+}
+
+/* Ordinary callers retain the exact legacy scope and ABI. Only the owned
+ * dispatcher can supply the current autonomous-reference identity proof. */
+EXPORT u32 lab_snaking_success_recheck(void *physics,void *role,u32 racer,u32 previous){
+    return ssr_checked(physics,role,racer,previous,0);
+}
+extern u32 lab_rabbit_route_scope(void *driver,void *role,void *physics,u64 base);
+EXPORT const u32 lab_snaking_rabbit_recheck_config[4]={1,6,3,12};
+EXPORT u32 lab_snaking_owned_success_recheck(void *driver,void *physics,void *role,
+                                            u32 racer,u32 previous,u64 base){
+    if(!ptr((u64)role))return previous;
+    if(b(role,0xd0)&&(racer!=w(role,0xa8)||
+       !lab_rabbit_route_scope(driver,role,physics,base)))return previous;
+    return ssr_checked(physics,role,racer,previous,1);
 }

@@ -53,6 +53,81 @@ static i32 sec_bend(void *physics,void *course,void *base,u64 a,u64 z,
     return 0;
 }
 
+/* Private entry-side proposal. The original admission and final ownership
+ * readback surround this helper. No native state or movement packet is stored. */
+EXPORT const struct {u32 abi,max_edges;float forecast,residual_fraction,motion_fraction;}
+lab_snaking_momentum_entry_config={1,16,12.f,.05f,.03f};
+
+/* Returning true certifies the whole reserved distance. An unresolvable edge,
+ * branch, curve or exhausted search retains the original entry decision. */
+static u32 sme_straight(void *physics,void *course,void *base,u64 a,u64 z,
+                       const float *up,const SecEdge *selected,const SecEdge *native,float required){
+    float length=root(selected->length2);
+    float covered=length-selected->projection/length;
+    float previous_selected[3],previous_base[3],selected2=selected->length2,base2=native->length2;
+    for(u32 k=0;k<3;k++){previous_selected[k]=selected->delta[k];previous_base[k]=native->delta[k];}
+    u64 seen[18];seen[0]=a;seen[1]=z;u32 used=2;
+    for(u32 edge=1;edge<lab_snaking_momentum_entry_config.max_edges&&covered<required;edge++){
+        u32 key;
+        if(b((void *)z,0x2e4)||!successor((void *)z,&key))return 0;
+        u64 next=be_point(course,key);
+        if(!next)return 0;
+        for(u32 i=0;i<used;i++)if(seen[i]==next)return 0;
+        seen[used++]=next;
+        u64 ba=be_point(base,w((void *)z,0x8c)),bz=be_point(base,key);
+        if(!ba||!bz||b((void *)ba,0x2e4)||!be_edge((void *)ba,key))return 0;
+        SecEdge s,n;
+        if(!sec_edge(physics,(void *)z,(void *)next,up,0,&s)||
+           !sec_edge(physics,(void *)ba,(void *)bz,up,0,&n)||
+           !hnb_straight(previous_selected,selected2,s.delta,s.length2)||
+           !hnb_straight(previous_base,base2,n.delta,n.length2))return 0;
+        float st=hf_dot(selected->right,s.delta)/root(s.length2);
+        float bt=hf_dot(native->right,n.delta)/root(n.length2);
+        float turn=lab_snaking_entry_choice_config.turn_sine;
+        if(!finite(st)||!finite(bt)||st<=-turn||st>=turn||bt<=-turn||bt>=turn)return 0;
+        covered+=root(s.length2);z=next;
+        for(u32 k=0;k<3;k++){previous_selected[k]=s.delta[k];previous_base[k]=n.delta[k];}
+        selected2=s.length2;base2=n.length2;
+    }
+    return finite(covered)&&covered>=required;
+}
+
+static i32 sme_choice(void *physics,void *course,void *base,u64 a,u64 z,
+                      const float *up,const SecEdge *selected,const SecEdge *native,
+                      float speed,float clearance,float band,float required,i32 original){
+    if(original!=-1&&original!=1)return original;
+    float scalar=f(physics,0x37c),motion[3],residual[3],velocity[3];
+    float norm=0.f,velocity2=0.f;
+    if(!finite(scalar)||scalar<=2.f)return original;
+    for(u32 k=0;k<3;k++){
+        motion[k]=f(physics,0x2fc+4*k);
+        float negative=f(physics,0x350+4*k),positive=f(physics,0x35c+4*k);
+        if(!finite(motion[k])||!finite(negative)||!finite(positive))return original;
+        residual[k]=negative+positive;velocity[k]=scalar*motion[k]+residual[k];
+        if(!finite(residual[k])||!finite(velocity[k]))return original;
+        norm+=motion[k]*motion[k];velocity2+=velocity[k]*velocity[k];
+    }
+    float maxspeed=lab_snaking_config.maximum_speed;
+    if(!finite(norm)||norm<.9f||norm>1.1f||!finite(velocity2)||velocity2>maxspeed*maxspeed||
+       hf_dot(velocity,selected->delta)<=0.f)return original;
+    float vertical=hf_dot(residual,up),residual2=0.f;
+    for(u32 k=0;k<3;k++){float v=residual[k]-vertical*up[k];residual2+=v*v;}
+    float minimum=lab_snaking_momentum_entry_config.residual_fraction*speed;
+    if(!finite(residual2)||residual2<minimum*minimum)return original;
+    float away=hf_dot(velocity,selected->right);
+    float predicted=selected->lateral+lab_snaking_momentum_entry_config.forecast*away;
+    float base_away=hf_dot(velocity,native->right);
+    float projected_base=native->lateral+lab_snaking_momentum_entry_config.forecast*base_away;
+    float movement=lab_snaking_momentum_entry_config.motion_fraction*speed;
+    if(!finite(away)||!finite(predicted)||!finite(projected_base)||selected->lateral*away<=0.f||
+       (away>=-movement&&away<=movement)||(predicted>=-band&&predicted<=band)||
+       projected_base<=-clearance||projected_base>=clearance)return original;
+    i32 proposed=predicted>0.f?1:-1;
+    if(proposed==original)return original;
+    if(!sme_straight(physics,course,base,a,z,up,selected,native,required))return original;
+    return proposed;
+}
+
 EXPORT i32 lab_snaking_entry_choice(void *driver,void *physics,void *producer,void *route,
                                   u32 racer,u32 now,i32 fallback,float required){
     if(racer>=12||(fallback!=-1&&fallback!=1)||!finite(required)||required<=64.f||
@@ -102,6 +177,8 @@ EXPORT i32 lab_snaking_entry_choice(void *driver,void *physics,void *producer,vo
         choice=sec_bend(physics,(void *)course,(void *)base,a,z,up,&selected,&native,required);
         if(!choice)choice=bl>band?-1:bl<-band?1:fallback;
     }
+    choice=sme_choice(physics,(void *)course,(void *)base,a,z,up,&selected,&native,
+                      speed,clearance,band,required,choice);
     /* Native lookup precedes every final owner/control readback: a change
      * observed during that call must not inherit an earlier valid decision. */
     if(be_course((u64)lab_module_start-LAB_MAIN_TO_MODULE,driver,route)!=base)return 0;

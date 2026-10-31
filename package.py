@@ -46,7 +46,7 @@ def package(airace=None, performance=None):
     output = dest/f"HarderAI-Enhanced-v{manifest['version']}-MK8DX-{manifest['game_version']}.zip"
     with zipfile.ZipFile(output, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name, data in sorted(files.items()):
-            info = zipfile.ZipInfo(name, date_time=(2026, 10, 22, 0, 0, 0))
+            info = zipfile.ZipInfo(name, date_time=(2026, 10, 31, 0, 0, 0))
             info.create_system = 3;info.external_attr = 0o100644 << 16
             info.compress_type = zipfile.ZIP_DEFLATED
             archive.writestr(info, data)

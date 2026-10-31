@@ -95,6 +95,7 @@ static u32 ngd_native_ground_target(const void *physics,NgdFailure *failure){
 }
 
 #include "snaking_retained_ground_target_v305.h"
+#include "snaking_short_contact_history_v305.h"
 #include "snaking_landing_prediction_v305.h"
 #include "snaking_accepted_ground_target_v305.h"
 #include "snaking_air_target_history_v305.h"
@@ -108,13 +109,14 @@ static void nga_qualify(const void *physics,const SnakeHopFrame *frame,const Sna
      * it carries no producer step to predict yet. Preserve only the empty
      * fresh record; duplicate updates after seeding remain strict below. */
     if(!elapsed&&!r->ready&&!r->poison)return;
+    u32 short_air=sch_air(physics,frame,r,ds),short_resume=sch_resume(physics,r,ds);
     if(ngd_test(r->poison,&failure,1)||ngd_test(frame->valid!=1,&failure,2)||ngd_test(frame->reserved!=1,&failure,3)||ngd_test(s->phase!=1,&failure,4)||
        ngd_test(frame->last!=s->last,&failure,5)||ngd_test(frame->start!=s->start,&failure,6)||ngd_test(frame->physics!=(u64)physics,&failure,7)||
        ngd_test(!ptr(frame->drift),&failure,8)||ngd_test(q(physics,0x110)!=frame->drift,&failure,9)||ngd_test(w((void *)frame->drift,0x10)!=ds,&failure,10)||
        ngd_test((ds!=2&&ds!=(s->direction<0?4u:5u)),&failure,11)||ngd_test((ds==2&&elapsed>30),&failure,12)||
        ngd_test(!elapsed,&failure,13)||ngd_test(elapsed>=lab_snaking_config.leg_deadline,&failure,14)||ngd_test(air>19,&failure,15)||ngd_test(air>elapsed,&failure,16)||
        ngd_test(!hf_environment(physics),&failure,17)||ngd_test(f(physics,0x274)!=.05f*(float)air,&failure,18)||
-       ngd_test((contact!=0&&contact!=1&&contact!=3),&failure,19)||ngd_test((contact!=3&&!air),&failure,42)||ngd_test((contact==3&&air),&failure,20)||ngd_test((ds!=2&&contact!=3),&failure,21)||
+       ngd_test((contact!=0&&contact!=1&&contact!=3),&failure,19)||ngd_test((contact!=3&&!air),&failure,42)||ngd_test((contact==3&&air),&failure,20)||ngd_test((ds!=2&&contact!=3&&!short_air),&failure,21)||
        ngd_test(!ptr(role),&failure,22)||ngd_test(q((void *)role,0x28)!=(u64)physics,&failure,23)||ngd_test(mode>2,&failure,24)||ngd_test(selector>1,&failure,25))goto invalid;
     u32 flags=w((void *)role,0x1cc);
     if(ngd_test(flags&0x00200010u,&failure,26))goto invalid;
@@ -141,10 +143,10 @@ static void nga_qualify(const void *physics,const SnakeHopFrame *frame,const Sna
             if(r->contact==3&&!ngd_equal(nga_bits(r->road[i]),nga_bits(r->target[i]),&failure,71,i))goto invalid;
         }
         if(contact==3&&(r->contact==0||r->contact==1)){
-            if(ngd_test(r->ds!=2,&failure,40)||ngd_test(r->landing,&failure,41)||(!retained&&!accepted&&!ngd_native_ground_target(physics,&failure)))goto invalid;
+            if(ngd_test((r->ds!=2&&!short_resume),&failure,40)||ngd_test((r->landing&&!short_resume),&failure,41)||(!retained&&!accepted&&!ngd_native_ground_target(physics,&failure)))goto invalid;
             landing=1;
         }else if(contact==r->contact||((contact==0||contact==1)&&(r->contact==0||r->contact==1||r->contact==3))){
-            if(ngd_test((contact!=3&&(r->air+1!=air||r->landing||r->ds!=2)),&failure,42)||ngd_test((contact==3&&r->air),&failure,43))goto invalid;
+            if(ngd_test((contact!=3&&!short_air&&(r->air+1!=air||r->landing||r->ds!=2)),&failure,42)||ngd_test((contact==3&&r->air),&failure,43))goto invalid;
             if(contact==3){
                 if(!retained&&!accepted&&!ngd_native_ground_target(physics,&failure))goto invalid;
             }else if(r->expected_world){

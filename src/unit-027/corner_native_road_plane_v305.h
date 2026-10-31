@@ -2,6 +2,7 @@
  * The ordinary chassis forecast always runs first. No road, input, pose,
  * charge, speed or contact field is changed. Both complete route views and
  * actual/pending motion must still fit the existing corridor predicates. */
+#include "corner_ground_provenance_v305.h"
 EXPORT const u32 lab_corner_native_road_plane_config[4]={1,3,0x17c,0x32c};
 static u32 cnr_up(const ArcOwner *c,float *up){
     const void *p=(void *)c->physics,*role=(void *)c->role;
@@ -12,8 +13,9 @@ static u32 cnr_up(const ArcOwner *c,float *up){
     float travel=f(p,0x568),norm=0.f,chassis[3];
     if(!finite(travel)||travel<0.f||(b(role,0xd8)&&travel<3.f)||
        !ca_unit((void *)p,0x14,chassis))return 0;
+    u32 exact=1;for(u32 k=0;k<3;k++)if(w(p,0x17c+4*k)!=w(p,0x32c+4*k))exact=0;
+    if(!exact&&!cgp_query_current(c))return 0;
     for(u32 k=0;k<3;k++){
-        if(w(p,0x17c+4*k)!=w(p,0x32c+4*k))return 0;
         up[k]=f(p,0x17c+4*k);if(!finite(up[k]))return 0;norm+=up[k]*up[k];
     }
     if(!finite(norm)||norm<.999f||norm>1.001f)return 0;

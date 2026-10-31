@@ -161,9 +161,16 @@ static u32 sgr_route(void *driver,void *physics,void *route,u32 ticks,const Snak
     if(projection<0){
         u64 older=q(route,0x68);
         if(!be_span(older,0x374)||older==a||older==z||
-           be_point((void *)course,w((void *)older,0x8c))!=older||!be_edge((void *)older,w((void *)a,0x8c))||
-           !hf_intent(physics,(void *)older,(void *)a,&vectors,1,delta,&length2,&projection))return 0;
-        z=a;a=older;
+           be_point((void *)course,w((void *)older,0x8c))!=older||!be_edge((void *)older,w((void *)a,0x8c)))return 0;
+        u64 physical_prior=0;
+        if(!hf_intent(physics,(void *)older,(void *)a,&vectors,1,delta,&length2,&projection)){
+            if(!hf_intent(physics,(void *)older,(void *)a,&vectors,0,delta,&length2,&projection)||
+               projection>=0||!(physical_prior=scp_earlier(route,(void *)course,older,a,z))||
+               !hf_intent(physics,(void *)physical_prior,(void *)older,&vectors,1,
+                          delta,&length2,&projection))return 0;
+        }
+        if(physical_prior){z=older;a=physical_prior;}
+        else{z=a;a=older;}
     }else if(projection>length2)return 0;
     return sgr_future(physics,(void *)course,(void *)base,a,z,
                       speed,speed*ticks+64.f,&vectors)||shg_future(physics,(void *)course,(void *)base,a,z,

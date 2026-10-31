@@ -11,8 +11,6 @@
   "native_maximum_race_ms": 599999,
   "changes_roster": false,
   "persistent_storage_bytes": 0,
-  "gameplay_verified": false,
-  "live_evidence": "Human VS captures include all twelve native finishes and subsequent course starts; the dedicated full-series and stuck-racer timeout trials remain open.",
-  "independent_rebuild_verified": true,
-  "published": false
+  "live_evidence": "Current autonomous VS captures include all twelve native finishes. An earlier build with the same predicate completed the 30-second stopped-racer fallback, results and next-course transition. Current Human GP and full-series coverage remains open.",
+  "independent_rebuild_verified": true
 }

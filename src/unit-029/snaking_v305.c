@@ -90,6 +90,7 @@ EXPORT const struct {u32 abi,up_offset;float plane2,norm_tolerance;} lab_snaking
 #include "snaking_cpu_charge_horizon_v305.h"
 EXPORT const struct {u32 abi,entry_allowance,release_updates,max_leg;float gain,minimum_inward;}
 lab_snaking_charge_horizon_config={1,31,1,80,5.f,.71f};
+#include "snaking_native_hop_phase_v305.h"
 EXPORT u32 lab_snaking_corridor_ticks(void *drift,u32 state,u32 elapsed){
     u32 remaining=elapsed<80?80-elapsed:0;
     u32 fallback=remaining+lab_snaking_config.settle;
@@ -108,6 +109,7 @@ EXPORT u32 lab_snaking_corridor_ticks(void *drift,u32 state,u32 elapsed){
      * Simulate its strict > comparison, retaining the original deadline cap. */
     while(charge<=target&&ticks<80){charge+=5.f;ticks++;}
     u32 entry=(state==4||state==5)?0:(elapsed<31?31-elapsed:0);
+    entry=lab_snaking_native_hop_entry_updates(drift,state,elapsed,entry);
     u32 needed=entry+ticks+1;
     return (needed<remaining?needed:remaining)+lab_snaking_config.settle;
 }
@@ -312,6 +314,7 @@ static u32 dfr_corridor_ticks(void *drift,u32 state,u32 elapsed,DfrContext *cont
      * Simulate its strict > comparison, retaining the original deadline cap. */
     while(charge<=target&&ticks<80){charge+=5.f;ticks++;}
     u32 entry=(state==4||state==5)?0:(elapsed<31?31-elapsed:0);
+    entry=lab_snaking_native_hop_entry_updates(drift,state,elapsed,entry);
     u32 needed=entry+ticks+1;
     return (needed<remaining?needed:remaining)+lab_snaking_config.settle;
 }
@@ -484,10 +487,21 @@ static u32 sfp_walk_edge(const void *a,const void *z,const float *delta,float le
            sfp_projected_cone(delta,length2,v->pending,v->target_up,alignment);
 }
 
+/* Resolve occupied history before applying its current road plane to a
+ * cached future edge. This fallback grants no occupied or crossed edge. */
+EXPORT const u32 lab_snaking_cached_plane_config[4]={1,2,1,0};
+static u32 hcp_intent(const void *physics,const void *a,const void *z,
+    const HopVectors *v,float *delta,float *length2,float *projection){
+    if(hf_intent(physics,a,z,v,0,delta,length2,projection))return 1;
+    if(!sfp_intent(physics,a,z,v,1,delta,length2,projection))return 0;
+    return finite(*projection)&&*projection<0.f;
+}
+
 EXPORT const u32 lab_snaking_hop_grade_config[4]={3,16,30,3};
 EXPORT const u32 lab_snaking_hop_predecessor_config[4]={1,1,4,0};
 static u32 gbp_occupation(const void *,const void *,void *,void *,
     u64,u64,u64,u64,const float *,float,float,float,float,const HopVectors *,float *);
+EXPORT const u32 lab_snaking_hop_cached_predecessor_config[4]={1,0x70,1,2};
 static u32 hf_corridor_diag_inner(void *driver,void *physics,void *route,u32 ticks,u64 previous_end,u64 *last,u32 *old_ahead,float *reserved,const SnakeHopFrame *frame,HfdProbe *probe){
     u64 holder=q(route,0x48),a=q(route,0x60),z=q(route,0x58);
     if(!ptr(holder)||!ptr(a)||!ptr(z)||a==z)return hfd_root_fail(probe,1,0xffffffffu,0xffffffffu,0xffffffffu,a,z,0,0,(const float *)0,0);
@@ -509,16 +523,26 @@ static u32 hf_corridor_diag_inner(void *driver,void *physics,void *route,u32 tic
     /* Cache age is not occupation. Keep the current selected edge valid,
      * then qualify at most its one cached predecessor before the normal walk. */
     float occupied_delta[3],occupied_length2,occupied_projection;
-    if(!hf_intent(physics,(void *)a,(void *)z,&hv,0,
+    if(!hcp_intent(physics,(void *)a,(void *)z,&hv,
                   occupied_delta,&occupied_length2,&occupied_projection))return hfd_root_fail(probe,10,0xffffffffu,0,0xffffffffu,a,z,0,0,(const float[]){hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},12);
     if(occupied_projection<0){
         u64 older=q(route,0x68);
         if(!be_span(older,0x374)||older==a||older==z||
            be_point(course,w((void *)older,0x8c))!=older||
            !be_edge((void *)older,w((void *)a,0x8c)))return hfd_root_fail(probe,11,0xffffffffu,0,0xffffffffu,a,z,0,0,(const float[]){occupied_projection,occupied_length2},2);
+        u64 physical_prior=0;
         if(!hf_intent(physics,(void *)older,(void *)a,&hv,1,
-                      occupied_delta,&occupied_length2,&occupied_projection))return hfd_root_fail(probe,12,0xffffffffu,0,0xffffffffu,older,a,0,0,(const float[]){hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},12);
-        z=a;a=older;
+                      occupied_delta,&occupied_length2,&occupied_projection)){
+            if(!hcp_intent(physics,(void *)older,(void *)a,&hv,
+                          occupied_delta,&occupied_length2,&occupied_projection)||
+               occupied_projection>=0||
+               !(physical_prior=scp_earlier(route,course,older,a,z))||
+               !hf_intent(physics,(void *)physical_prior,(void *)older,&hv,1,
+                          occupied_delta,&occupied_length2,&occupied_projection)||
+               !hf_edge(occupied_delta,occupied_length2,&hv))return hfd_root_fail(probe,12,0xffffffffu,0,0xffffffffu,older,a,0,0,(const float[]){hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},12);
+        }
+        if(physical_prior){z=older;a=physical_prior;}
+        else{z=a;a=older;}
     }else if(occupied_projection>occupied_length2)return hfd_root_fail(probe,13,0xffffffffu,0,0xffffffffu,a,z,0,0,(const float[]){occupied_projection,occupied_length2},2);
     u32 future_coverage=0;u64 first_a=a,first_z=z;
     u64 seen[18];seen[0]=a;u32 used=1;*old_ahead=0;
@@ -568,7 +592,7 @@ static u32 hf_corridor_diag_inner(void *driver,void *physics,void *route,u32 tic
                 return hfd_root_fail(probe,24,segment,1,0xffffffffu,a,z,ba,bz,(const float[]){projection,length2,speed,required},4);
             u32 base_successor=projection>=length2;float base_debt=0;
             if(base_successor&&!hbs_occupation(physics,route,course,(void *)native_base,
-                a,z,ba,bz,delta,length2,projection,speed,&hv,&base_debt))return hfd_root_fail(probe,25,segment,1,0xffffffffu,a,z,ba,bz,(const float[]){projection,length2,speed,required,delta[0],delta[1],delta[2],hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},19);
+                a,z,ba,bz,delta,length2,projection,speed,&hv,&base_debt,(u32 *)0))return hfd_root_fail(probe,25,segment,1,0xffffffffu,a,z,ba,bz,(const float[]){projection,length2,speed,required,delta[0],delta[1],delta[2],hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},19);
             for(u32 i=0;i<3;i++){float e=offset[i]-projection/length2*delta[i];error+=e*e;}
             float margin=lab_snaking_config.margin+2.f*speed;
             if(width<=margin||!finite(error)||error>=(width-margin)*(width-margin))return hfd_root_fail(probe,26,segment,1,0xffffffffu,a,z,ba,bz,(const float[]){width,margin,error,projection,length2,speed,required},7);
@@ -609,6 +633,8 @@ static u32 spr_edge(const float *delta,float length2,const HopVectors *v){
            n*n<=.0025f*length2&&t*t<=.0025f*length2;
 }
 #include "snaking_selected_joint_v305.h"
+#include "snaking_base_joint_gap_v305.h"
+#include "snaking_joint_turn_scope_v305.h"
 static u32 df_corridor_diag_inner(void *driver,void *physics,void *route,u32 ticks,u64 previous_end,u64 *last,u32 *old_ahead,float *reserved,const SnakeHopFrame *frame,DfrProbe *probe){
     u64 holder=q(route,0x48),a=q(route,0x60),z=q(route,0x58);
     if(!ptr(holder)||!ptr(a)||!ptr(z)||a==z)return dfr_fail(probe,1,0xffffffffu,0xffffffffu,0xffffffffu,0,0,0,0,(const float *)0,0);
@@ -633,7 +659,7 @@ static u32 df_corridor_diag_inner(void *driver,void *physics,void *route,u32 tic
      * then qualify at most its one cached predecessor before the normal walk. */
     u32 selected_joint_gap=0;
     float occupied_delta[3],occupied_length2,occupied_projection;
-    if(!hf_intent(physics,(void *)a,(void *)z,&hv,0,
+    if(!hcp_intent(physics,(void *)a,(void *)z,&hv,
                   occupied_delta,&occupied_length2,&occupied_projection))return dfr_fail(probe,10,0xffffffffu,0,0xffffffffu,a,z,0,0,(const float[]){hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},12);
     if(occupied_projection<0){
         u64 older=q(route,0x68);
@@ -645,14 +671,15 @@ static u32 df_corridor_diag_inner(void *driver,void *physics,void *route,u32 tic
                       occupied_delta,&occupied_length2,&occupied_projection)&&
            !(selected_joint_gap=sjg_occupation(physics,(void *)older,(void *)a,
                                                (void *)z,speed,&hv))){
-            if(!hf_intent(physics,(void *)older,(void *)a,&hv,0,
+            if(!hcp_intent(physics,(void *)older,(void *)a,&hv,
                           occupied_delta,&occupied_length2,&occupied_projection)||
                occupied_projection>=0||
                !(physical_prior=scp_earlier(route,course,older,a,z))||
                !hf_intent(physics,(void *)physical_prior,(void *)older,&hv,1,
-                          occupied_delta,&occupied_length2,&occupied_projection)||
-               !hf_edge(occupied_delta,occupied_length2,&hv))
+                          occupied_delta,&occupied_length2,&occupied_projection))
                 return sjg_refusal(probe,physics,(void *)older,(void *)a,(void *)z,&hv);
+            /* The ordinary segment-zero walk checks both motion cones below.
+             * Its existing recovery path must also see a resolved +70 edge. */
         }
         if(physical_prior){z=older;a=physical_prior;}
         else{z=a;a=older;}
@@ -669,9 +696,9 @@ static u32 df_corridor_diag_inner(void *driver,void *physics,void *route,u32 tic
         float selected_delta[3],selected_length2,selected_projection,selected_dot=0;
         if(!sfp_walk_intent(physics,(void *)a,(void *)z,&hv,!segment&&!selected_joint_gap,segment!=0,
                       selected_delta,&selected_length2,&selected_projection))return dfr_fail(probe,16,segment,0,0xffffffffu,a,z,ba,bz,(const float[]){hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},12);
-        if(!(hf_edge(selected_delta,selected_length2,&hv)||(padding_only&&spr_edge(selected_delta,selected_length2,&hv))||(segment&&sfp_walk_edge((void *)a,(void *)z,selected_delta,selected_length2,&hv,1,lab_snaking_config.alignment_squared))))return dfr_fail(probe,17,segment,0,0xffffffffu,a,z,ba,bz,(const float[]){selected_delta[0],selected_delta[1],selected_delta[2],selected_length2,selected_projection,speed,required,hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},19);
+        if(!(hf_edge(selected_delta,selected_length2,&hv)||(!segment&&selected_joint_gap&&hnb_future_edge(selected_delta,selected_length2,selected_projection,&hv))||(padding_only&&spr_edge(selected_delta,selected_length2,&hv))||(segment&&sfp_walk_edge((void *)a,(void *)z,selected_delta,selected_length2,&hv,1,lab_snaking_config.alignment_squared))))return dfr_fail(probe,17,segment,0,0xffffffffu,a,z,ba,bz,(const float[]){selected_delta[0],selected_delta[1],selected_delta[2],selected_length2,selected_projection,speed,required,hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},19);
         for(u32 i=0;i<3;i++)selected_dot+=selected_delta[i]*heading[i];
-        if(selected_dot<=0||(!segment&&selected_dot*selected_dot<lab_snaking_config.alignment_squared*selected_length2*norm))return dfr_fail(probe,18,segment,0,0xffffffffu,a,z,ba,bz,(const float[]){selected_dot,selected_length2,norm,speed,required},5);
+        if(selected_dot<=0||(!segment&&!selected_joint_gap&&selected_dot*selected_dot<lab_snaking_config.alignment_squared*selected_length2*norm))return dfr_fail(probe,18,segment,0,0xffffffffu,a,z,ba,bz,(const float[]){selected_dot,selected_length2,norm,speed,required},5);
         float selected_length=root(selected_length2);
         selected_remaining+=!segment?selected_length-selected_projection/selected_length:selected_length;
         float delta[3],length2=0,dot=0,width=10000.f;
@@ -687,9 +714,11 @@ static u32 df_corridor_diag_inner(void *driver,void *physics,void *route,u32 tic
             if(!finite(start)||!finite(end))return dfr_fail(probe,20,segment,1,i,a,z,ba,bz,(const float[]){start,end},2);
             delta[i]=end-start;length2+=delta[i]*delta[i];dot+=delta[i]*heading[i];
         }
-        if(!(hf_edge(delta,length2,&hv)||(padding_only&&spr_edge(delta,length2,&hv))||(segment&&sfp_walk_edge((void *)ba,(void *)bz,delta,length2,&hv,1,lab_snaking_config.alignment_squared))))return dfr_fail(probe,21,segment,1,0xffffffffu,a,z,ba,bz,(const float[]){delta[0],delta[1],delta[2],length2,speed,required,hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},18);
+        float joint_base_projection=0;
+        u32 exited_base=!segment&&selected_joint_gap&&jtp_past(physics,(void *)ba,delta,length2,&joint_base_projection);
+        if(!(hf_edge(delta,length2,&hv)||(exited_base&&hnb_future_edge(delta,length2,joint_base_projection,&hv))||(padding_only&&spr_edge(delta,length2,&hv))||(segment&&sfp_walk_edge((void *)ba,(void *)bz,delta,length2,&hv,1,lab_snaking_config.alignment_squared))))return dfr_fail(probe,21,segment,1,0xffffffffu,a,z,ba,bz,(const float[]){delta[0],delta[1],delta[2],length2,speed,required,hv.motion[0],hv.motion[1],hv.motion[2],hv.pending[0],hv.pending[1],hv.pending[2],hv.up[0],hv.up[1],hv.up[2],hv.target_up[0],hv.target_up[1],hv.target_up[2]},18);
         float normal_delta=0;for(u32 i=0;i<3;i++)normal_delta+=delta[i]*up[i];
-        if(!finite(length2)||length2<64||dot<=0||(!segment&&dot*dot<lab_snaking_config.alignment_squared*length2*norm)||
+        if(!finite(length2)||length2<64||dot<=0||(!segment&&!exited_base&&dot*dot<lab_snaking_config.alignment_squared*length2*norm)||
            (!segment&&normal_delta*normal_delta>.0025f*length2*up2))return dfr_fail(probe,22,segment,1,0xffffffffu,a,z,ba,bz,(const float[]){length2,dot,norm,normal_delta,up2,speed,required},7);
         float length=root(length2);
         if(!segment){
@@ -699,12 +728,14 @@ static u32 df_corridor_diag_inner(void *driver,void *physics,void *route,u32 tic
                 offset[i]=position-f((void *)ba,0xc+4*i);projection+=offset[i]*delta[i];
             }
             u32 base_predecessor=projection<0,base_successor=projection>length2;
-            float prior_remaining=0,base_debt=0;
+            float prior_remaining=0,base_debt=0;u32 hbs_reason=0;
             if((base_predecessor&&!gbp_occupation(physics,route,course,(void *)native_base,
                 a,z,ba,bz,delta,length2,projection,width,speed,&hv,&prior_remaining))||
                (base_successor&&!hbs_occupation(physics,route,course,(void *)native_base,
-                a,z,ba,bz,delta,length2,projection,speed,&hv,&base_debt)))
-                return dfr_fail(probe,24,segment,1,0xffffffffu,a,z,ba,bz,(const float[]){projection,length2,speed,required},4);
+                a,z,ba,bz,delta,length2,projection,speed,&hv,&base_debt,&hbs_reason)&&
+                !(selected_joint_gap&&sbj_occupation(physics,route,course,(void *)native_base,
+                a,z,ba,bz,delta,length2,projection,width,speed,&hv,&base_debt))))
+                return dfr_fail(probe,24,segment,1,hbs_reason?(0x48420000u|hbs_reason):0xffffffffu,a,z,ba,bz,(const float[]){projection,length2,speed,required},4);
             for(u32 i=0;i<3;i++){float e=offset[i]-projection/length2*delta[i];error+=e*e;}
             float margin=lab_snaking_config.margin+2.f*speed;
             if(width<=margin||!finite(error)||error>=(width-margin)*(width-margin))return dfr_fail(probe,25,segment,1,0xffffffffu,a,z,ba,bz,(const float[]){width,margin,error,projection,length2,speed,required},7);
@@ -907,6 +938,9 @@ static u32 gw_corridor_inner(void *driver,void *physics,void *route,u32 ticks,u6
 }
 
 EXPORT const u32 lab_snaking_ground_fallback_trace_config[4]={1,320,316,0x47570000u};
+/* Grounded continuation budget; original geometry is retained. */
+EXPORT const struct {u32 abi,prior_max_grants,max_grants,leg_deadline;}
+lab_snaking_ground_budget_config={1,8,32,80};
 static u32 gw_continue(void *driver,void *physics,void *route,u32 ticks,
     u64 previous_end,u64 *last,u32 *old_ahead,float *reserved,
     const SnakeHopFrame *frame,DfrProbe *probe){
@@ -923,7 +957,7 @@ static u32 gw_continue(void *driver,void *physics,void *route,u32 ticks,
     GroundWindow *r=&lab_snaking_ground_windows[racer];
     u32 same=r->driver==s->driver&&r->producer==s->producer&&r->clock==s->clock&&
              r->start==s->start&&r->episode==s->episodes;
-    if(same&&(r->grants>=lab_snaking_ground_window_config.max_grants||s->last<=r->last))return 0;
+    if(same&&(r->grants>=lab_snaking_ground_budget_config.max_grants||s->last<=r->last))return 0;
     DfrProbe supplemental={0};
     if(!gw_corridor_inner(driver,physics,route,ticks,previous_end,last,old_ahead,
                          reserved,frame,&supplemental)){
@@ -1190,7 +1224,7 @@ EXPORT void lab_snaking_dispatch(void *producer){
     if(s->phase==2||s->phase==4){
         if(ds&&ds!=4&&ds!=5){abort_episode(s,now,cooldown,5,flags,native_state,ds);return;}
         if(elapsed<lab_snaking_config.settle){finish(s,6);return;}
-        if(s->phase==2||s->phase==4){s->phase=0;s->next_tick=now+lab_snaking_success_recheck(p,r,racer,cooldown);finish(s,7);return;}
+        if(s->phase==2||s->phase==4){s->phase=0;s->next_tick=now+lab_snaking_owned_success_recheck(d,p,r,racer,cooldown,base);finish(s,7);return;}
         if(ds){abort_episode(s,now,cooldown,8,flags,native_state,ds);return;}
         if(!admissible(base,producer,r)){abort_episode(s,now,cooldown,13,flags,native_state,ds);return;}
         s->phase=3;s->direction=-s->direction;s->start=now;s->steer_count=0;s->steer_period=0;elapsed=0;
@@ -1301,6 +1335,10 @@ static void *srh_locked(void *driver,void *candidate,void *manager,u64 base,
     return (void *)current;
 }
 
+/* Share the paired-view admission of the exact current AI rabbit. */
+extern u32 lab_rabbit_route_scope(void *driver,void *role,void *physics,u64 base);
+EXPORT const u32 lab_snaking_rabbit_route_hold_config[4]={1,1,80,0};
+
 EXPORT void *lab_snaking_route_hold(void *driver,void *candidate,void *manager,u64 base){
     if(!ptr((u64)driver)||!ptr((u64)candidate)||!ptr((u64)manager)||
        b(driver,0xc4)||b(driver,0xa4)||b(driver,0xa5)||
@@ -1309,7 +1347,7 @@ EXPORT void *lab_snaking_route_hold(void *driver,void *candidate,void *manager,u
     if(!ptr(adapter))return candidate;
     u64 role=q((void *)adapter,0x48),physics=q((void *)adapter,0x50);
     if(!ptr(role)||!ptr(physics)||q((void *)role,0x28)!=physics||
-       q((void *)physics,0xf8)!=role||b((void *)role,0xd0)||
+       q((void *)physics,0xf8)!=role||
        b((void *)role,0xd2)!=1||b((void *)role,0xd3)!=1||
        !b((void *)role,0xe1)||b((void *)role,0xe7)||
        (w((void *)role,0x1cc)&0x01204018u))return candidate;
@@ -1317,6 +1355,8 @@ EXPORT void *lab_snaking_route_hold(void *driver,void *candidate,void *manager,u
     if(!ptr(ai)||q(driver,0x90)!=ai||q((void *)ai,0x10)!=role||
        q((void *)physics,0x100)!=ai)return candidate;
     u32 racer=w((void *)role,0xa8);if(racer>=12)return candidate;
+    if(b((void *)role,0xd0)&&
+       !lab_rabbit_route_scope(driver,(void *)role,(void *)physics,base))return candidate;
     SnakeState *s=&lab_snaking_state[racer];u32 expected=0;
     if(!__atomic_compare_exchange_n(&s->lock,&expected,1,0,__ATOMIC_ACQUIRE,__ATOMIC_RELAXED))return candidate;
     void *result=srh_locked(driver,candidate,manager,base,s,role,physics,racer);
