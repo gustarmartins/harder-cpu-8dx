@@ -1,8 +1,8 @@
-# Native implementation — v0.2.0
+# Native implementation — v0.2.1
 
 Target: MK8DX **3.0.5**, title `0100152000022000`, main build ID `FE941ED5BA14BE5D505698DA1BBF4FE7`.
 
-The AArch64 `subsdk9` module is linked at main-relative offset `0x1A49000`. The source profile contains **104 translation units**, **71 module hooks**, exact return branches and source hashes. `main_overlays.json` and the compiled finish companion provide the remaining main-image changes. The combined patch covers **4,928 bytes**.
+The AArch64 `subsdk9` module is linked at main-relative offset `0x1A49000`. The source profile contains **106 translation units**, **72 module hooks**, exact return branches and source hashes. `main_overlays.json` and the compiled finish companion provide the remaining main-image changes. The combined patch covers **4,932 bytes**.
 
 ## Driving
 
@@ -55,11 +55,15 @@ The shared-slot hook brackets the native CPU-job submit/wake/join interval with 
 
 ## Items and finishing
 
+Defensive Star, Boo and Super Horn checks validate both the driver and race `KartProxy` types and their shared role/physics owners. Separate native proxy objects for the same racer are accepted. Star incoming-Bullet checks use the same shared-owner binding. Existing inventory, scene, timing and state gates remain active.
+
 Golden repetition, ordinary Mushroom waiting, active-Star shortcut selection, first-place holding and Horn/Star reactions retain their native item-admission paths. Finish-urgency helpers use remaining course progress and the current driving estimate to shorten suitable Golden/Star waits.
 
 Ready Star selector 8 in planner state 3 gains a use request at a selected tagged shortcut, after 180 held-state updates, within a 480-update finish horizon, or against a qualified nearby/closing active Bullet Bill. The priority path admits ordinary boost/drift states while retaining inventory, ownership, existing-protection and damage/recovery checks.
 
 Ready Boo selector 22 in planner state 2 shares the timed-item hook at `main+0x61EC0` with Bullet urgency. Native `0x5FB50` admission runs first. An owned ready slot with stock 1 and planner age at least 6 can react to qualified Banana/Bob-omb hazards, nearby Green/Red Shells or a Blue Shell's attack wind-up. It then follows native direction selection at `0x61EF0` and request publication through `0x5F160`. Native activation establishes Boo protection.
+
+`boo_event_observer_v305.c` records independent per-racer defensive requests and native Boo uses. The post-use hook at `main+0x42614` samples the native slot marker and protection timers, restores register state and resumes at `0x42618`. Records live in the module’s own storage.
 
 The finish forecast uses remaining native lap/section progress and the maximum of current forward speed, ordinary cap and boost cap. Saved Mushrooms receive a 180-update horizon, extended to 600 when a ready owned Bullet is queued behind them. The queued-Bullet path also permits suitable Mushroom use through native drift states 4/5; active-boost spacing and the remaining route gates still apply. Bullet countdown urgency uses a 480-update horizon. These horizons are planning estimates at the sampled speed.
 

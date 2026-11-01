@@ -149,7 +149,10 @@ static u32 bullet_threat(const View *v,BulletThreat *out){
            q(t.physics,0xf8)!=t.role||w(t.role,0xa8)!=i||!b(t.role,0xe1)||b(t.role,0xe7)||
            q(t.context,8)!=t.role)continue;
         t.driver=q(t.context,0x18);
-        if(!ptr(t.driver)||q(t.driver,0x88)!=t.adapter)continue;
+        if(!ptr(t.driver))continue;
+        u64 driver_proxy=q(t.driver,0x88);
+        if(!ptr(driver_proxy)||q(driver_proxy,0)!=main+0x11b44f8||
+           q(driver_proxy,0x48)!=t.role||q(driver_proxy,0x50)!=t.physics)continue;
         t.flags=w(t.role,0x1cc);
         if(!(t.flags&0x200000u)||(t.flags&0x01000000u))continue;
         if(!motion(v->physics,t.own_pos,t.own_velocity)||!motion(t.physics,t.other_pos,t.other_velocity))continue;

@@ -13,7 +13,7 @@ lab_finish_bullet_wait_hook:
     movz x9,#(LAB_MAIN_TO_MODULE & 0xffff)
     movk x9,#((LAB_MAIN_TO_MODULE >> 16) & 0xffff),lsl #16
     sub x1,x1,x9
-    bl lab_boo_defense_current
+    bl lab_boo_defense_observed_current
     cbnz w0,.Lboo_shared_use
     mov x0,x19
     bl lab_finish_bullet_urgent

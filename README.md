@@ -53,14 +53,14 @@ Shared slots wait for suitable driving states and restore each racer's assignmen
 
 ## Included balance
 
-The four difficulty rows have separate pace and item settings. HARD starts at **1.010**, with a **0.750** minimum, formation **+0.100 / −0.050**, catch-up **+0.150** over **−2500…1750**, and catch-down **−0.035** over **2000…6000**.
+The four difficulty rows have separate pace and item settings. HARD starts at **1.035**, with a **0.500** minimum, formation **+0.160 / −0.120**, catch-up **+0.060** over **−3645.261…4860.3481**, and catch-down **−0.120** over **3645.261…18226.3047**.
 
 [Full parameter tables](PARAMETERS.md) · [Exact byte edits](parameter_edits.json)
 
 ## Install
 
 1. Use MK8DX **3.0.5**, build ID `FE941ED5BA14BE5D505698DA1BBF4FE7`.
-2. Extract **HarderAI Enhanced v0.2.0** into the game's Mod Data Location.
+2. Extract **HarderAI Enhanced v0.2.1** into the game's Mod Data Location.
 3. Enable that folder as your HarderAI gameplay bundle and restart the title.
 
 The folder includes the native module, matching executable patch, AIRace.bin and Performance.bin. Use one HarderAI executable bundle and one replacement for each parameter file.

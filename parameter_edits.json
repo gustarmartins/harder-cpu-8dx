@@ -2,7 +2,7 @@
   "AIRace.bin": {
     "size": 15796,
     "base_sha256": "0aca24cf29736137dbdfc3eb813404b39d9c7519a50a58b3932cec4a92c5c639",
-    "result_sha256": "37318e6d9a3ee268c111546ac4f31f0dceb9ace2b37ad621d8c78b20862bc632",
+    "result_sha256": "c0ea4a03bc840b938e7635caf7594c34d2689e1b3fb858fc6cd906d6194dca34",
     "edits": [
       {
         "offset": 60,
@@ -307,12 +307,22 @@
       {
         "offset": 4220,
         "before": "295c4f",
-        "after": "9a9979"
+        "after": "333383"
+      },
+      {
+        "offset": 4226,
+        "before": "00",
+        "after": "80"
       },
       {
         "offset": 4248,
         "before": "ae4761",
-        "after": "000080"
+        "after": "333383"
+      },
+      {
+        "offset": 4254,
+        "before": "00",
+        "after": "80"
       },
       {
         "offset": 4256,
@@ -321,13 +331,8 @@
       },
       {
         "offset": 4276,
-        "before": "85eb",
-        "after": "ae47"
-      },
-      {
-        "offset": 4282,
-        "before": "00",
-        "after": "40"
+        "before": "85eb81",
+        "after": "e17a84"
       },
       {
         "offset": 4284,
@@ -335,9 +340,9 @@
         "after": "000080"
       },
       {
-        "offset": 4310,
-        "before": "00",
-        "after": "40"
+        "offset": 4304,
+        "before": "5c8f82",
+        "after": "ae4781"
       },
       {
         "offset": 4312,
@@ -347,17 +352,17 @@
       {
         "offset": 4348,
         "before": "00000a",
-        "after": "641e28"
+        "after": "191e23"
       },
       {
         "offset": 4352,
         "before": "190a14",
-        "after": "64282d"
+        "after": "3c2d28"
       },
       {
         "offset": 4356,
         "before": "3c1428",
-        "after": "644b32"
+        "after": "643c46"
       },
       {
         "offset": 4360,
@@ -365,34 +370,39 @@
         "after": "645a46"
       },
       {
-        "offset": 4382,
-        "before": "a041",
-        "after": "b442"
+        "offset": 4383,
+        "before": "41",
+        "after": "42"
       },
       {
         "offset": 4386,
         "before": "20",
-        "after": "48"
+        "after": "0c"
       },
       {
-        "offset": 4392,
-        "before": "9a9919",
-        "after": "000040"
+        "offset": 4390,
+        "before": "16439a9919",
+        "after": "b442000080"
       },
       {
         "offset": 4396,
         "before": "cdcc4c",
-        "after": "0000a0"
+        "after": "000080"
       },
       {
-        "offset": 4400,
-        "before": "0000003f333333",
-        "after": "3333b33e000040"
+        "offset": 4402,
+        "before": "00",
+        "after": "80"
+      },
+      {
+        "offset": 4404,
+        "before": "333333",
+        "after": "000080"
       },
       {
         "offset": 4408,
         "before": "9a9999",
-        "after": "cdcc4c"
+        "after": "000080"
       },
       {
         "offset": 4412,
@@ -401,118 +411,78 @@
       },
       {
         "offset": 4416,
-        "before": "9a9999",
-        "after": "cdcc4c"
-      },
-      {
-        "offset": 4422,
-        "before": "0000",
-        "after": "403f"
+        "before": "9a99993e00000000",
+        "after": "cdcc4c3d9a99993e"
       },
       {
         "offset": 4444,
         "before": "0000e1",
-        "after": "6afccd"
+        "after": "4e94f7"
       },
       {
         "offset": 4448,
-        "before": "0000fa",
-        "after": "2451f0"
-      },
-      {
-        "offset": 4452,
-        "before": "000016",
-        "after": "ff5209"
+        "before": "0000fa43000016",
+        "after": "d56b1044940d25"
       },
       {
         "offset": 4456,
         "before": "00002f",
-        "after": "3e7d1a"
+        "after": "20af39"
       },
       {
         "offset": 4460,
         "before": "00804a",
-        "after": "a2a72b"
+        "after": "e7504e"
       },
       {
         "offset": 4464,
         "before": "000066",
-        "after": "8afc4d"
+        "after": "809477"
       },
       {
         "offset": 4468,
         "before": "008084",
-        "after": "2f5170"
+        "after": "d76b90"
       },
       {
         "offset": 4472,
         "before": "000091",
-        "after": "045389"
+        "after": "9e0da5"
       },
       {
         "offset": 4476,
         "before": "0040a1",
-        "after": "2c7d9a"
+        "after": "11afb9"
       },
       {
         "offset": 4480,
         "before": "0080b1",
-        "after": "c4a7ab"
+        "after": "0d51ce"
       },
       {
         "offset": 4484,
         "before": "00c0c1",
-        "after": "e5d1bc"
+        "after": "59f2e2"
       },
       {
         "offset": 4488,
-        "before": "9a99193e3333b33e",
-        "after": "cdcccc3dcdcc4c3d"
+        "before": "9a9919",
+        "after": "0ad723"
       },
       {
-        "offset": 4497,
-        "before": "009643",
-        "after": "401cc5"
+        "offset": 4492,
+        "before": "3333b33e000096430080a2448fc2753d295c8f3dcdcccc",
+        "after": "8fc2f53d2dd463c5c9e2974500000000000000008fc275"
       },
       {
-        "offset": 4501,
-        "before": "80a2",
-        "after": "c0da"
-      },
-      {
-        "offset": 4504,
-        "before": "8fc275",
-        "after": "cdcccc"
-      },
-      {
-        "offset": 4508,
-        "before": "295c8f3dcdcccc3d9a99193e",
-        "after": "0000003e9a99193ecdcccc3d"
-      },
-      {
-        "offset": 4522,
-        "before": "9643",
-        "after": "fa44"
-      },
-      {
-        "offset": 4526,
-        "before": "a244",
-        "after": "bb45"
-      },
-      {
-        "offset": 4534,
-        "before": "cc",
-        "after": "4c"
-      },
-      {
-        "offset": 4536,
-        "before": "cdcccc",
-        "after": "295c0f"
+        "offset": 4516,
+        "before": "9a99193e000096430080a244cdccccbdcdccccbdcdcccc",
+        "after": "cdcccc3c2dd463459c648e4600000000000000008fc2f5"
       },
       {
         "offset": 4540,
         "before": "9a9919be",
-        "after": "00000080"
+        "after": "cdccccbd"
       }
     ]
   },

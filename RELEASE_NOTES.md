@@ -1,17 +1,13 @@
-# HarderAI Enhanced v0.2.0
+# HarderAI Enhanced v0.2.1
 
-- Improved snaking continuity across path junctions and hop landings.
-- Improved traffic-avoidance admission for cars, trucks and buses.
-- Added earlier Star use at shortcuts, against nearby threats and near the finish.
-- Added defensive Boo use against nearby Bananas, Bob-ombs and shells.
-- Improved saved-Mushroom use when a Bullet Bill is queued near the finish, including suitable charging drifts.
-- Added earlier finish-near Bullet Bill use.
-- Added rotating midfield/rear SLOT 00 opportunities while preserving existing front rivals' formation assignments.
-- Updated the four difficulty tunes, formation pressure and catch windows.
-- Updated reproducible C/assembly sources, parameter recipes and technical documentation.
+- Fixed missed Star, Boo and Super Horn defense reactions caused by native kart-proxy validation.
+- Fixed Star threat detection for incoming Bullet Bills using separate native racer proxies.
+- Updated formation spacing, catch windows and difficulty tuning.
+- Set Hard CPU item probabilities to Hold 100, Counter 60 and Snipe 70.
+- Updated reproducible sources and exact parameter recipes.
 
 ## Known limitations
 
-- Snaking and item reactions remain dependent on course geometry and native eligibility.
-- Traffic avoidance, route recovery and broader item-defense coverage remain in progress.
+- Snaking and item reactions depend on course geometry and native eligibility.
+- Traffic avoidance, route recovery and broader defensive-item coverage remain in progress.
 - Gameplay tuning focuses on 150cc.

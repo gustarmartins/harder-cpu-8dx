@@ -14,49 +14,49 @@
       "main_offset": 1579168,
       "symbol": "lab_earned_star_ratio_hook",
       "original_hex": "4020211e",
-      "branch_hex": "50526314"
+      "branch_hex": "5c526314"
     },
     {
       "main_offset": 1582212,
       "symbol": "lab_earned_boost_cap_hook",
       "original_hex": "2008201e",
-      "branch_hex": "6e4f6314"
+      "branch_hex": "7a4f6314"
     },
     {
       "main_offset": 1579264,
       "symbol": "lab_drift_pace_hook",
       "original_hex": "69d20791",
-      "branch_hex": "f2526314"
+      "branch_hex": "fe526314"
     },
     {
       "main_offset": 448096,
       "symbol": "lab_cpu_ratio_fallback_hook",
       "original_hex": "02102f1e",
-      "branch_hex": "eda36714"
+      "branch_hex": "f9a36714"
     },
     {
       "main_offset": 448220,
       "symbol": "lab_cpu_ratio_formation_hook",
       "original_hex": "02102f1e",
-      "branch_hex": "d0a36714"
+      "branch_hex": "dca36714"
     },
     {
       "main_offset": 381920,
       "symbol": "lab_drift_completion_hook",
       "original_hex": "77000037",
-      "branch_hex": "b3046814"
+      "branch_hex": "bf046814"
     },
     {
       "main_offset": 381944,
       "symbol": "lab_drift_completion_end_hook",
       "original_hex": "7f060139",
-      "branch_hex": "2a056814"
+      "branch_hex": "36056814"
     },
     {
       "main_offset": 379532,
       "symbol": "lab_corner_arc_begin_hook",
       "original_hex": "7f4600b9",
-      "branch_hex": "d7076814"
+      "branch_hex": "e3076814"
     },
     {
       "main_offset": 1547208,
@@ -68,55 +68,55 @@
       "main_offset": 9005996,
       "symbol": "lab_flow_course_begin_hook",
       "original_hex": "ff8305d1",
-      "branch_hex": "d3054814"
+      "branch_hex": "fd054814"
     },
     {
       "main_offset": 9006540,
       "symbol": "lab_flow_course_publish_hook",
       "original_hex": "02000014",
-      "branch_hex": "a5054814"
+      "branch_hex": "cf054814"
     },
     {
       "main_offset": 9006576,
       "symbol": "lab_flow_course_retire_hook",
       "original_hex": "f30f1ef8",
-      "branch_hex": "f5054814"
+      "branch_hex": "1f064814"
     },
     {
       "main_offset": 8165476,
       "symbol": "lab_flow_course_reload_hook",
       "original_hex": "ffc301d1",
-      "branch_hex": "b23b4b14"
+      "branch_hex": "dc3b4b14"
     },
     {
       "main_offset": 9291492,
       "symbol": "lab_flow_course_wrapper_delete_hook",
       "original_hex": "f30f1ef8",
-      "branch_hex": "6cf04614"
+      "branch_hex": "96f04614"
     },
     {
       "main_offset": 8159496,
       "symbol": "lab_flow_course_factory_reset_hook",
       "original_hex": "f30f1ef8",
-      "branch_hex": "3d424b14"
+      "branch_hex": "67424b14"
     },
     {
       "main_offset": 8166040,
       "symbol": "lab_flow_course_data_delete_hook",
       "original_hex": "42f8f817",
-      "branch_hex": "333c4b14"
+      "branch_hex": "5d3c4b14"
     },
     {
       "main_offset": 8159564,
       "symbol": "lab_flow_course_factory_release_hook",
       "original_hex": "f30f1ef8",
-      "branch_hex": "df424b14"
+      "branch_hex": "09434b14"
     },
     {
       "main_offset": 1609760,
       "symbol": "lab_native_ground_target_hook",
       "original_hex": "e89340b9",
-      "branch_hex": "a5f66314"
+      "branch_hex": "cff66314"
     },
     {
       "main_offset": 448188,
@@ -128,97 +128,97 @@
       "main_offset": 12840,
       "symbol": "lab_golden_begin_hook",
       "original_hex": "68c24539",
-      "branch_hex": "e5f46914"
+      "branch_hex": "0ff56914"
     },
     {
       "main_offset": 13628,
       "symbol": "lab_golden_commands_hook",
       "original_hex": "608240f9",
-      "branch_hex": "74f46914"
+      "branch_hex": "9ef46914"
     },
     {
       "main_offset": 13944,
       "symbol": "lab_golden_end_hook",
       "original_hex": "fd7b49a9",
-      "branch_hex": "79f46914"
+      "branch_hex": "a3f46914"
     },
     {
       "main_offset": 268424,
       "symbol": "lab_golden_use_a_hook",
       "original_hex": "090100b9",
-      "branch_hex": "49fc6814"
+      "branch_hex": "73fc6814"
     },
     {
       "main_offset": 269264,
       "symbol": "lab_golden_use_b_hook",
       "original_hex": "090100b9",
-      "branch_hex": "cdfb6814"
+      "branch_hex": "f7fb6814"
     },
     {
       "main_offset": 261584,
       "symbol": "lab_golden_tick_hook",
       "original_hex": "fd7b42a9",
-      "branch_hex": "a2036914"
+      "branch_hex": "cc036914"
     },
     {
       "main_offset": 261580,
       "symbol": "lab_golden_expiry_hook",
       "original_hex": "aa000054",
-      "branch_hex": "f8036914"
+      "branch_hex": "22046914"
     },
     {
       "main_offset": 261556,
       "symbol": "lab_golden_limit_hook",
       "original_hex": "6a010054",
-      "branch_hex": "54046914"
+      "branch_hex": "7e046914"
     },
     {
       "main_offset": 376760,
       "symbol": "lab_snaking_hook",
       "original_hex": "fd7b41a9",
-      "branch_hex": "956f6814"
+      "branch_hex": "a16f6814"
     },
     {
       "main_offset": 8325472,
       "symbol": "lab_com_lifetime_publish_hook",
       "original_hex": "28410091",
-      "branch_hex": "761e4a14"
+      "branch_hex": "821e4a14"
     },
     {
       "main_offset": 6359664,
       "symbol": "lab_com_lifetime_retire_hook",
       "original_hex": "880240f9",
-      "branch_hex": "8d9e5114"
+      "branch_hex": "999e5114"
     },
     {
       "main_offset": 1294944,
       "symbol": "lab_com_lifetime_begin_hook",
       "original_hex": "ff0303d1",
-      "branch_hex": "ecf06414"
+      "branch_hex": "f8f06414"
     },
     {
       "main_offset": 1296056,
       "symbol": "lab_com_lifetime_group_hook",
       "original_hex": "745a00f9",
-      "branch_hex": "31f06414"
+      "branch_hex": "3df06414"
     },
     {
       "main_offset": 1304128,
       "symbol": "lab_com_lifetime_destroy_hook",
       "original_hex": "f44fbea9",
-      "branch_hex": "aae86414"
+      "branch_hex": "b6e86414"
     },
     {
       "main_offset": 1304296,
       "symbol": "lab_com_lifetime_delete_hook",
       "original_hex": "f44fbea9",
-      "branch_hex": "dbe86414"
+      "branch_hex": "e7e86414"
     },
     {
       "main_offset": 1557584,
       "symbol": "lab_held_blue_charge_hook",
       "original_hex": "011da84e",
-      "branch_hex": "95676314"
+      "branch_hex": "a1676314"
     },
     {
       "main_offset": 403176,
@@ -242,115 +242,115 @@
       "main_offset": 401056,
       "symbol": "lab_horn_blue_hook",
       "original_hex": "7fc200b9",
-      "branch_hex": "09bd6714"
+      "branch_hex": "15bd6714"
     },
     {
       "main_offset": 377880,
       "symbol": "lab_corner_recheck_hook",
       "original_hex": "14a140b9",
-      "branch_hex": "53e56714"
+      "branch_hex": "5fe56714"
     },
     {
       "main_offset": 452972,
       "symbol": "lab_bounded_drift_heading_hook",
       "original_hex": "616240f9",
-      "branch_hex": "3f9b6714"
+      "branch_hex": "4b9b6714"
     },
     {
       "main_offset": 459836,
       "symbol": "lab_cpu_paired_view_initial_hook",
       "original_hex": "604200f9",
-      "branch_hex": "ac966714"
+      "branch_hex": "b8966714"
     },
     {
       "main_offset": 460076,
       "symbol": "lab_cpu_paired_view_update_hook",
       "original_hex": "604200f9",
-      "branch_hex": "ca966714"
+      "branch_hex": "d6966714"
     },
     {
       "main_offset": 1561500,
       "symbol": "lab_cpu_inward_charge_hook",
       "original_hex": "0020221e",
-      "branch_hex": "5df96314"
+      "branch_hex": "69f96314"
     },
     {
       "main_offset": 401300,
       "symbol": "lab_mushroom_wait_hook",
       "original_hex": "e10f1c32",
-      "branch_hex": "71666814"
+      "branch_hex": "7d666814"
     },
     {
       "main_offset": 8119748,
       "symbol": "lab_star_shortcut_hook",
       "original_hex": "ff8302d1",
-      "branch_hex": "92f84a14"
+      "branch_hex": "9ef84a14"
     },
     {
       "main_offset": 401812,
       "symbol": "lab_golden_route_gate",
       "original_hex": "c0040037",
-      "branch_hex": "4c6f6814"
+      "branch_hex": "766f6814"
     },
     {
       "main_offset": 401924,
       "symbol": "lab_golden_ordinary_gate",
       "original_hex": "40010037",
-      "branch_hex": "ac6f6814"
+      "branch_hex": "d66f6814"
     },
     {
       "main_offset": 401352,
       "symbol": "lab_golden_delay_hook",
       "original_hex": "480b8052",
-      "branch_hex": "b7706814"
+      "branch_hex": "e1706814"
     },
     {
       "main_offset": 401776,
       "symbol": "lab_golden_shortcut_retry_hook",
       "original_hex": "88020034",
-      "branch_hex": "4f706814"
+      "branch_hex": "79706814"
     },
     {
       "main_offset": 401440,
       "symbol": "lab_star_defense_hook",
       "original_hex": "68d24339",
-      "branch_hex": "156d6814"
+      "branch_hex": "306d6814"
     },
     {
       "main_offset": 381932,
       "symbol": "lab_native_driving_trace_hook",
       "original_hex": "68064139",
-      "branch_hex": "da6e6814"
+      "branch_hex": "e66e6814"
     },
     {
       "main_offset": 380604,
       "symbol": "lab_early_drift_pid_entry_hook",
       "original_hex": "08080054",
-      "branch_hex": "bd716814"
+      "branch_hex": "c9716814"
     },
     {
       "main_offset": 381280,
       "symbol": "lab_early_drift_pid_finish_hook",
       "original_hex": "ec03422d",
-      "branch_hex": "8f716814"
+      "branch_hex": "9b716814"
     },
     {
       "main_offset": 314924,
       "symbol": "lab_racer_follow_update",
       "original_hex": "c8eeff97",
-      "branch_hex": "a1b96894"
+      "branch_hex": "adb96894"
     },
     {
       "main_offset": 311416,
       "symbol": "lab_racer_follow_target",
       "original_hex": "dd2d0094",
-      "branch_hex": "1cbd6814"
+      "branch_hex": "28bd6814"
     },
     {
       "main_offset": 298224,
       "symbol": "lab_racer_follow_secondary",
       "original_hex": "bf3a0094",
-      "branch_hex": "80ca6814"
+      "branch_hex": "8cca6814"
     },
     {
       "main_offset": 8119320,
@@ -378,70 +378,76 @@
       "main_offset": 401960,
       "symbol": "lab_golden_active_narrow_hook",
       "original_hex": "94169f1a",
-      "branch_hex": "02db6814"
+      "branch_hex": "2cdb6814"
     },
     {
       "main_offset": 287488,
       "symbol": "lab_lightning_picker_entry_hook",
       "original_hex": "ff0306d1",
-      "branch_hex": "904e6914"
+      "branch_hex": "ba4e6914"
     },
     {
       "main_offset": 288576,
       "symbol": "lab_lightning_curve_hook",
       "original_hex": "00013fd6",
-      "branch_hex": "834d6914"
+      "branch_hex": "ad4d6914"
     },
     {
       "main_offset": 400908,
       "symbol": "lab_lightning_delay_hook",
       "original_hex": "68ee00b9",
-      "branch_hex": "29e06814"
+      "branch_hex": "53e06814"
     },
     {
       "main_offset": 315580,
       "symbol": "lab_director_promotion_hook",
       "original_hex": "940600d1",
-      "branch_hex": "493a6914"
+      "branch_hex": "733a6914"
     },
     {
       "main_offset": 1303988,
       "symbol": "lab_shared_jobs_pre_hook",
       "original_hex": "49c21394",
-      "branch_hex": "d3766594"
+      "branch_hex": "fd766594"
     },
     {
       "main_offset": 1304008,
       "symbol": "lab_shared_jobs_post_hook",
       "original_hex": "fd7b43a9",
-      "branch_hex": "22776514"
+      "branch_hex": "4c776514"
     },
     {
       "main_offset": 299456,
       "symbol": "lab_traffic_response_state3_hook",
       "original_hex": "c0010036",
-      "branch_hex": "e7536914"
+      "branch_hex": "11546914"
     },
     {
       "main_offset": 300052,
       "symbol": "lab_traffic_response_state2_hook",
       "original_hex": "f503002a",
-      "branch_hex": "a7536914"
+      "branch_hex": "d1536914"
     },
     {
       "main_offset": 401088,
       "symbol": "lab_finish_bullet_wait_hook",
       "original_hex": "68ee40b9",
-      "branch_hex": "b4f46814"
+      "branch_hex": "def46814"
     },
     {
       "main_offset": 401912,
       "symbol": "lab_finish_item_drift_hook",
       "original_hex": "a0010037",
-      "branch_hex": "93f46814"
+      "branch_hex": "bdf46814"
+    },
+    {
+      "main_offset": 271892,
+      "symbol": "lab_boo_event_use_hook",
+      "original_hex": "08a84039",
+      "branch_hex": "057f6914"
     }
   ],
-  "nso_sha256": "d41a2c9361fc009d369d59236fc483d5179e7c4f0221cadfc4e0aa5f62fca486",
+  "nso_sha256": "79216e245b4d36da4741fcc31c268da26eb142085e788f2d832447bc0d4db029",
   "independent_rebuild_verified": true,
   "privacy_review_complete": true,
   "source_order": [
@@ -548,7 +554,9 @@
     "unit-100/finish_item_drift_gate_v305.S",
     "unit-101/star_priority_generated_v305.c",
     "unit-102/boo_defense_generated_v305.c",
-    "unit-103/boo_item_hazard_generated_v305.c"
+    "unit-103/boo_item_hazard_generated_v305.c",
+    "unit-104/boo_event_observer_v305.c",
+    "unit-105/boo_event_observer_v305.S"
   ],
   "sources": {
     "unit-000/header.S": "fa7c821604026c28fae6273b90b2a5ce0ccfeb2437de5c1ee20bf26bb92420d5",
@@ -585,7 +593,7 @@
     "unit-012/item_rank_fallback_v305.h": "4350dd0d1b78bb5dc3bbab64472fb8603f5ad6dca051d2ae01130f70b647900c",
     "unit-013/first_place_defense_v305.S": "153728bbf103d3601a278d4db5af85ad643488ea2293240b239cc77aa2048fd1",
     "unit-013/register_context.inc": "f84d8b8fee34f9dc1fe88c73e73f349d86d8e960a890249881c353fdc6166d0c",
-    "unit-014/horn_blue_defense_v305.c": "0a1cc1b7e224b21c6262e1455f03f85f6ac0607128ef57f19e9e6c3f66d9780c",
+    "unit-014/horn_blue_defense_v305.c": "2dda0960208128d443456bb798c553ab30db48415dd12803394ffd33ff481300",
     "unit-014/item_rank_fallback_v305.h": "4350dd0d1b78bb5dc3bbab64472fb8603f5ad6dca051d2ae01130f70b647900c",
     "unit-015/horn_blue_defense_v305.S": "c41f9ef8eba1063a43e5af9f4b0ced6243e5d674bdf3a4b103387118cb58534c",
     "unit-015/register_context.inc": "f84d8b8fee34f9dc1fe88c73e73f349d86d8e960a890249881c353fdc6166d0c",
@@ -695,11 +703,11 @@
     "unit-042/star_shortcut_v305.c": "2235b63938a50b0b445ac48cda8c2f84a91adf25934656d8681448a9fc57b2e7",
     "unit-043/register_context.inc": "aebf0881a8a995b6400090bb6fb387b10f1784e9b8f06a6f3d71cf7d42ecbda3",
     "unit-043/star_shortcut_v305.S": "0b425d6db8d5a4f1e79ad34e690841806ac9aff9176d81fa31558057b263d9e6",
-    "unit-044/star_defense_v305.c": "61a6b6232da259b0bb60a0c182f0958ba460d574c3733aaf7af293c6e5cf4822",
+    "unit-044/star_defense_v305.c": "3b16130dbecabc170afcde7898c7726e68baab6267503d88560d48b20b3217f3",
     "unit-044/star_own_green_v305.h": "ee69ee4396ac0e8261df5b8fedccc5a31b0f8b26f81847df227c8ac46e8b0a0c",
     "unit-045/register_context.inc": "f84d8b8fee34f9dc1fe88c73e73f349d86d8e960a890249881c353fdc6166d0c",
     "unit-045/star_defense_v305.S": "db34db5ddca5b99da78b93482f657762fb052eca1dcde140da22984b6b78a221",
-    "unit-046/star_item_hazard_v305.c": "d66c2e97f55272b270e0bb7f632aa70f863d77678e750dc7cd571e87a85a50c0",
+    "unit-046/star_item_hazard_v305.c": "3b4b34e02aa1dd947507196b4804ebbe170e3fbd93e8d293631041983975ac12",
     "unit-047/golden_active_repeat_v305.c": "e7296db038a1db4707f706edeea6163319978cb636d0ba1a65a16425dbb90fa2",
     "unit-048/golden_active_repeat_v305.S": "f7d99e11ab23446da8f6e04d684a49d414a18192e175156d21b48541f4d93989",
     "unit-048/register_context.inc": "f84d8b8fee34f9dc1fe88c73e73f349d86d8e960a890249881c353fdc6166d0c",
@@ -950,13 +958,17 @@
     "unit-097/register_context.inc": "f84d8b8fee34f9dc1fe88c73e73f349d86d8e960a890249881c353fdc6166d0c",
     "unit-097/traffic_response_v305.S": "85ab3eebfd5913f34903044b4cad98e336c4528112e05e5035d818d329cfb00c",
     "unit-098/finish_item_queue_generated_v305.c": "431700f53c3ea18c12433a3798c7e860045c987bb3e9a27679cc65108c8fd351",
-    "unit-099/finish_item_queue_v305.S": "258fbf494f67cc3bcc601c4d819fb00a7ece137d557374ebdb7bfb3e0abaa42b",
+    "unit-099/finish_item_queue_v305.S": "0da95ea5f9843ff0d56f651b7b38c64ad5c6d81af83aaa7fb0aebe4a4b28bbcd",
     "unit-099/register_context.inc": "f84d8b8fee34f9dc1fe88c73e73f349d86d8e960a890249881c353fdc6166d0c",
     "unit-100/finish_item_drift_gate_v305.S": "708f39518e4f17c800787eb8c443e1ef8a89bcb89ce340caeeb19838c8a4b99a",
     "unit-100/register_context.inc": "f84d8b8fee34f9dc1fe88c73e73f349d86d8e960a890249881c353fdc6166d0c",
-    "unit-101/star_priority_generated_v305.c": "17de9bdb1060d5342f3f5e0f7a514bf8bdf4a6ff7094969e3152222115c3da3a",
-    "unit-102/boo_defense_generated_v305.c": "31a2c480b6609cca1763875da51ea68153dd255beaf0386b8033378c2618edc4",
-    "unit-103/boo_item_hazard_generated_v305.c": "69b7beb33ef7d88c1553f6a6a6ac0018ce1edd0b8fad23fd1fc921a183d088a3"
+    "unit-101/star_priority_generated_v305.c": "98a5b0af126688fb625c3369e4a769b650785a089afd55a10f270c0217b3cb93",
+    "unit-102/boo_defense_generated_v305.c": "e89b213f393efa4fcc5bdb0ab32c795f4b142011f3ee4a5a8cbc29a6b74e002c",
+    "unit-103/boo_item_hazard_generated_v305.c": "5c3bd9e7df306b6b450a0861c696a134e2a3c183c049b282d9eb050cfdabb110",
+    "unit-104/boo_event_observer_v305.c": "7f3338bdec8cb46c934d88dec9fb0007ddada361d366e09436048e5b67c52a6f",
+    "unit-104/boo_event_observer_v305.h": "686c0064eee1ae16c1593134c3fb62af7638765a489cd3cb0e1b362e6baf9bec",
+    "unit-105/boo_event_observer_v305.S": "ef223066f80b6db7d89594e5acd492adb434c80d0fb5f778d3e9ead4e1e52963",
+    "unit-105/register_context.inc": "f84d8b8fee34f9dc1fe88c73e73f349d86d8e960a890249881c353fdc6166d0c"
   },
   "compiler_args": [
     "-DLAB_DRIFT_HEADING_SNAKING=1",
@@ -1431,13 +1443,17 @@
     [
       "lab_finish_item_drift_block",
       401964
+    ],
+    [
+      "lab_boo_event_use_return",
+      271896
     ]
   ],
   "release_candidate": true,
-  "version": "0.2.0",
-  "hook_patch_sha256": "582d36c06675cb849920b99a5b4c7e20234e8cb17b52554dbf3e4521a87de7ec",
+  "version": "0.2.1",
+  "hook_patch_sha256": "d5f0589fd51a3c647f14db32288872d11daf79632de28f9d9becad89e73ac922",
   "main_overlays_sha256": "6f6b70d009c0803cdfd1820b7cb4f5e07417d736cedb561ac757ab752789d943",
-  "merged_patch_bytes": 4928,
+  "merged_patch_bytes": 4932,
   "companion_patch_bytes": 4644,
   "compiled_companions": [
     {
@@ -1459,5 +1475,5 @@
       "replacement_sha256": "9e4d4c5a93a5e7940897a60c16d2c2ca7667afee74971cef3d106f50f5a0cd48"
     }
   ],
-  "patch_sha256": "fd26551480c96f16a79f73c7505857118f68399e3358befcee1443cdedaad61f"
+  "patch_sha256": "eddaac46691dd442d2e877a73c1f90734cbb53f4be25f21fdca27a3c43edc3da"
 }

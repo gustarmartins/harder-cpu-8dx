@@ -1,30 +1,28 @@
-# Validation — v0.2.0
+# Validation — v0.2.1
 
 ## Reproduction
 
-- The 406-file native source snapshot independently rebuilds the installed Human module and merged executable patch byte-for-byte.
+- The 410-file native source snapshot independently rebuilds the exact installed Human module and merged executable patch.
+- The build contains 106 translation units and 72 module hooks; its ELF, NSO, IPS and pchtxt match the installed target.
 - Parameter recipes reconstruct the included AIRace.bin and Performance.bin from hash-verified original inputs.
-- The final item composition passed 249 native execution, loader and composition checks; 32 production/source/tamper checks; four overlay checks; and 44 phone-derivative checks.
-- Earlier qualified junction, hop, charging, finish and item changes remain in the current source ancestry.
+- The item-owner correction passed 228 native execution and loader cases on both maintained variants, plus 68 desktop composition/reader cases and 45 phone-derivative cases.
+- Earlier qualified driving, charging, item and finish changes remain in the source ancestry.
 
 ## Gameplay observations
 
-- On-course review accepted the current drift and snaking behavior.
-- A finite 150cc, Hard COM, Normal Items autonomous test of the current enhancement completed seven consecutive races with all twelve native finish flags. Race eight started before the recording deadline.
-- All 22 sampled ready-Star runs were followed by a positive native Star timer within the 90-tick observation window.
-- Four completed ready-Boo runs were followed by the native protection flag. Two other runs left eligible CPU scope before completion.
-- All 1,109 distinct sampled completed shared-slot updates restored their owned slot words. The retired subgroup-exchange policy reported zero exchanges in 2,712 qualified observations.
-- An earlier build with the same finish predicate completed a deliberate stopped-racer test: the 30-second grace expired, results appeared and the next course loaded.
+- On-course review accepted the retained drift and snaking behavior.
+- Latest telemetry of the shared enhancement code observed 399 physical turbo commits: 329 blue, 60 orange and 10 purple, plus 18 sampled Star activations.
+- The same capture observed 47 coherent ready-Star hazard contexts. None contained a Banana or Bob-omb inside the authored reaction envelope; no held Boo was sampled during that window.
+- Earlier testing of the retained finish predicate reached normal results and next-course loading after its 30-second stopped-racer grace.
 
-Ready inventory, use requests, activation and successful defense are separate observations. The current Boo samples establish protection activation; exact threat-trigger attribution and successful live dodges still need further coverage. Native execution tests use supplied scene and item states.
+Native execution checks use supplied scene/item states. Actual threat-triggered dodges need further live coverage. Exact-current Human full-GP and eight-race VS final-result acceptance remains pending.
 
 ## Known limitations and next work
 
 - Snaking remains course- and state-dependent; clearance and recovery checks can cancel attempts.
-- Traffic avoidance, difficult route choices and high-speed recovery need further work. Shroom Ridge traffic is a priority.
-- Long-corner orange/purple planning can still miss opportunities available to a skilled human.
+- Traffic avoidance, difficult route choices and high-speed recovery need further work. Shroom Ridge traffic remains a priority.
+- Long-corner orange/purple planning can miss opportunities available to a skilled human.
 - Item defense and shortcut timing depend on native eligibility, ready inventory and supported threat states. Broader course-obstacle reactions remain open.
-- Exact-current-build full GP and eight-race VS final-result coverage remains incomplete; the current autonomous run reached seven completed races.
-- Gameplay balance and handling work currently focus on 150cc. Broader 200cc tuning is deferred.
+- Gameplay balance and handling work focus on 150cc. Broader 200cc tuning is deferred.
 
-Platform verification covers Eden on Linux and MK8DX 3.0.5. Native phone-derivative checks establish build compatibility; device gameplay is a separate check.
+Platform verification covers Eden on Linux and MK8DX 3.0.5. Phone build compatibility and device gameplay are separate checks.

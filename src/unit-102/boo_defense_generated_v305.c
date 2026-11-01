@@ -24,6 +24,14 @@ static u32 w(const void *p,u32 o){return *(const u32 *)((const u8 *)p+o);}
 static u8 b(const void *p,u32 o){return *((const u8 *)p+o);}
 static float f(const void *p,u32 o){return *(const float *)((const u8 *)p+o);}
 static u32 ptr(u64 p){return p>=0x10000&&!(p&7)&&p<(1ull<<39)-0x2000;}
+/* Distinct native copies of the same kart proxy must agree on current owners. */
+static __attribute__((always_inline)) inline u32 lab_item_same_proxy_owner(u64 a,u64 z,u64 base){
+    if(!ptr(a)||!ptr(z)||q((void *)a,0)!=base+0x11b44f8||q((void *)z,0)!=base+0x11b44f8)return 0;
+    u64 role=q((void *)z,0x48),physics=q((void *)z,0x50);
+    if(!ptr(role)||!ptr(physics)||q((void *)role,0x28)!=physics||q((void *)physics,0xf8)!=role)return 0;
+    return q((void *)a,0x48)==role&&q((void *)a,0x50)==physics;
+}
+
 static u32 nearby(const void *item,const void *physics){
     float x=f(item,0x12c)-f(physics,0x2c);
     float y=f(item,0x130)-f(physics,0x30);
@@ -78,7 +86,7 @@ EXPORT u32 lab_boo_defense_decision(const void *planner,const void *scene,u64 ba
     if(!ptr(system)||q((void *)system,0)!=base+0x125a060)return 0;
     u64 race=q((void *)system,0x238),manager=q((void *)system,0x240);
     if(!ptr(race)||q((void *)race,0)!=base+0x11b4308||
-       q((void *)race,0x50+8*racer)!=proxy||!ptr(manager)||
+       !lab_item_same_proxy_owner(q((void *)race,0x50+8*racer),proxy,base)||!ptr(manager)||
        q((void *)manager,0)!=base+0x11a7188||!b((void *)manager,0x170)||
        q((void *)manager,0x28)!=system+0x178||
        q((void *)race,0x28)!=system+0x178||q((void *)system,0x1a8)!=system)return 0;
