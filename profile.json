@@ -1450,7 +1450,7 @@
     ]
   ],
   "release_candidate": true,
-  "version": "0.2.1",
+  "version": "1.0.0",
   "hook_patch_sha256": "d5f0589fd51a3c647f14db32288872d11daf79632de28f9d9becad89e73ac922",
   "main_overlays_sha256": "6f6b70d009c0803cdfd1820b7cb4f5e07417d736cedb561ac757ab752789d943",
   "merged_patch_bytes": 4932,

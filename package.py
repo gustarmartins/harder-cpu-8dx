@@ -43,7 +43,7 @@ def package(airace=None, performance=None):
     for name in ['README.md', 'TECHNICAL.md', 'PARAMETERS.md', 'VALIDATION.md', 'LICENSE', 'release-manifest.json', 'RELEASE_NOTES.md']:
         files[name] = (ROOT/name).read_bytes()
     dest = ROOT/'dist';dest.mkdir(exist_ok=True)
-    output = dest/f"Harder-CPU-Players-Enhanced-v{manifest['version']}-MK8DX-{manifest['game_version']}.zip"
+    output = dest/f"Harder-CPU-8-Deluxe-Enhanced-Edition-v{manifest['version']}-MK8DX-{manifest['game_version']}.zip"
     with zipfile.ZipFile(output, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name, data in sorted(files.items()):
             info = zipfile.ZipInfo(name, date_time=(2026, 10, 31, 0, 0, 0))

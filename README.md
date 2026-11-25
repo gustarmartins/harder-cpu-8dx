@@ -1,6 +1,8 @@
-# Harder CPU Players Enhanced
+# Harder CPU 8 Deluxe — Enhanced Edition
 
-A follow-up to [Harder CPU Players](https://gamebanana.com/mods/489008) by Anonynanas (Gustavo), for **Mario Kart 8 Deluxe 3.0.5**. The original tuned CPU pace and formation. Enhanced also changes how rivals take corners, use items and contest the lead. Earlier GitHub releases used the name HarderAI Enhanced.
+**CPU rivals drift for stronger mini-turbos, defend with held items and chase the lead through a native race director.**
+
+By Anonynanas (gustarmartins), creator of [Harder CPU Players](https://gamebanana.com/mods/489008). The original MK8DX mod tuned pace and formation in AIRace.bin. Enhanced Edition pairs an executable patch with a native companion module. It checks road width before a rival starts snaking, carries suitable drifts across path joins, and lets midfield racers that earn positions challenge the leaders. Tuned around 150cc on **Mario Kart 8 Deluxe 3.0.5**.
 
 ## Driving
 
@@ -60,7 +62,7 @@ The four difficulty rows have separate pace and item settings. HARD starts at **
 ## Install
 
 1. Use MK8DX **3.0.5**, build ID `FE941ED5BA14BE5D505698DA1BBF4FE7`.
-2. Extract **Harder CPU Players Enhanced v0.2.1** into the game's Mod Data Location.
+2. Extract **Harder CPU 8 Deluxe - Enhanced Edition v1.0.0** into the game's Mod Data Location.
 3. Disable the original Harder CPU Players and any older HarderAI Enhanced gameplay bundle. Enable the new folder and restart the game.
 
 The folder includes the native module, matching executable patch, AIRace.bin and Performance.bin. Use one CPU gameplay bundle and one replacement for each parameter file.
@@ -76,3 +78,7 @@ GitHub hosts the source and build recipes. The install package is distributed se
 - [Release files and checksums](release-manifest.json)
 
 Original mod source is MIT-licensed. Game assets and trademarks belong to their respective owners.
+
+## Release numbering
+
+Enhanced Edition starts at **v1.0.0**. Fixes increment the last number, new compatible features increment the middle number, and changes that require users to migrate their setup increment the first. The original GameBanana release has its own numbering.

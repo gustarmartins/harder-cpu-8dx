@@ -1,7 +1,7 @@
 {
-  "name": "Harder CPU Players Enhanced",
-  "version": "0.2.1",
-  "mod_folder": "Harder CPU Players Enhanced v0.2.1",
+  "name": "Harder CPU 8 Deluxe — Enhanced Edition",
+  "version": "1.0.0",
+  "mod_folder": "Harder CPU 8 Deluxe - Enhanced Edition v1.0.0",
   "game_version": "3.0.5",
   "title_id": "0100152000022000",
   "main_build_id": "FE941ED5BA14BE5D505698DA1BBF4FE7",
@@ -11,9 +11,9 @@
   "source_license": "MIT",
   "files": {
     "FE941ED5BA14BE5D505698DA1BBF4FE7.ips": "eddaac46691dd442d2e877a73c1f90734cbb53f4be25f21fdca27a3c43edc3da",
-    "Harder CPU Players Enhanced v0.2.1/exefs/subsdk9": "79216e245b4d36da4741fcc31c268da26eb142085e788f2d832447bc0d4db029",
-    "Harder CPU Players Enhanced v0.2.1/exefs/FE941ED5BA14BE5D505698DA1BBF4FE7.pchtxt": "bf21e1937f2723829e97d8e70c4fe739d266ed07a7ea7eaabc08fba041dca0e4",
-    "Harder CPU Players Enhanced v0.2.1/romfs/Common/Mush/AIRace.bin": "c0ea4a03bc840b938e7635caf7594c34d2689e1b3fb858fc6cd906d6194dca34",
-    "Harder CPU Players Enhanced v0.2.1/romfs/Common/Mush/Performance.bin": "9bf6f051c72878599de2afb65c0d17fb51cd762e1319aee3b7c8da0898c0bb2c"
+    "Harder CPU 8 Deluxe - Enhanced Edition v1.0.0/exefs/subsdk9": "79216e245b4d36da4741fcc31c268da26eb142085e788f2d832447bc0d4db029",
+    "Harder CPU 8 Deluxe - Enhanced Edition v1.0.0/exefs/FE941ED5BA14BE5D505698DA1BBF4FE7.pchtxt": "bf21e1937f2723829e97d8e70c4fe739d266ed07a7ea7eaabc08fba041dca0e4",
+    "Harder CPU 8 Deluxe - Enhanced Edition v1.0.0/romfs/Common/Mush/AIRace.bin": "c0ea4a03bc840b938e7635caf7594c34d2689e1b3fb858fc6cd906d6194dca34",
+    "Harder CPU 8 Deluxe - Enhanced Edition v1.0.0/romfs/Common/Mush/Performance.bin": "9bf6f051c72878599de2afb65c0d17fb51cd762e1319aee3b7c8da0898c0bb2c"
   }
 }

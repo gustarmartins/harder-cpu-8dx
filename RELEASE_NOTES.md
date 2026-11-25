@@ -1,13 +1,12 @@
-# Harder CPU Players Enhanced v0.2.1
+# Harder CPU 8 Deluxe — Enhanced Edition v1.0.0
 
-- Fixed missed Star, Boo and Super Horn defense reactions caused by native kart-proxy validation.
-- Fixed Star threat detection for incoming Bullet Bills using separate native racer proxies.
-- Updated formation spacing, catch windows and difficulty tuning.
-- Set Hard CPU item probabilities to Hold 100, Counter 60 and Snipe 70.
-- Updated reproducible sources and exact parameter recipes.
+CPU rivals drift for stronger mini-turbos, defend with held items and chase the lead through a native race director.
 
-## Known limitations
+This is the first numbered release of Enhanced Edition under the Harder CPU name. It packages the verified 3.0.5 gameplay payload previously available as HarderAI Enhanced v0.2.1.
 
-- Snaking and item reactions depend on course geometry and native eligibility.
-- Traffic avoidance, route recovery and broader defensive-item coverage remain in progress.
-- Gameplay tuning focuses on 150cc.
+- Rivals can snake on suitable straights, sustain corner drifts toward orange or purple mini-turbos, and check the road corridor before following another racer.
+- CPU item decisions account for held defenses, nearby threats and late-race opportunities. A racer can spend a Mushroom sooner to reach a queued Bullet Bill.
+- The race director reads gaps, progress and sampled pace. Eligible midfield racers can earn temporary opportunities to challenge for the lead.
+- Single-player GP and VS allow the field to finish, with a 30-second grace period for stragglers.
+
+Tuned around **150cc** and verified on **Eden for Linux**. See [validation](VALIDATION.md) for tested behaviors and remaining gameplay coverage. The [original Harder CPU Players post](https://gamebanana.com/mods/489008) remains available from Anonynanas.

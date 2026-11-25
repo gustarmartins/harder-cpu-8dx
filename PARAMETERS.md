@@ -1,4 +1,4 @@
-# Parameters — v0.2.1
+# Parameters — v1.0.0
 
 [Exact tables](parameters.json) · [Every byte edit](parameter_edits.json)
 

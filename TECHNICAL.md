@@ -1,4 +1,4 @@
-# Native implementation — v0.2.1
+# Native implementation — v1.0.0
 
 Target: MK8DX **3.0.5**, title `0100152000022000`, main build ID `FE941ED5BA14BE5D505698DA1BBF4FE7`.
 
