@@ -1,6 +1,6 @@
-# HarderAI Enhanced
+# Harder CPU Players Enhanced
 
-Enhanced CPU driving, item strategy and race dynamics for **Mario Kart 8 Deluxe 3.0.5**.
+A follow-up to [Harder CPU Players](https://gamebanana.com/mods/489008) by Anonynanas (Gustavo), for **Mario Kart 8 Deluxe 3.0.5**. The original tuned CPU pace and formation. Enhanced also changes how rivals take corners, use items and contest the lead. Earlier GitHub releases used the name HarderAI Enhanced.
 
 ## Driving
 
@@ -60,10 +60,10 @@ The four difficulty rows have separate pace and item settings. HARD starts at **
 ## Install
 
 1. Use MK8DX **3.0.5**, build ID `FE941ED5BA14BE5D505698DA1BBF4FE7`.
-2. Extract **HarderAI Enhanced v0.2.1** into the game's Mod Data Location.
-3. Enable that folder as your HarderAI gameplay bundle and restart the title.
+2. Extract **Harder CPU Players Enhanced v0.2.1** into the game's Mod Data Location.
+3. Disable the original Harder CPU Players and any older HarderAI Enhanced gameplay bundle. Enable the new folder and restart the game.
 
-The folder includes the native module, matching executable patch, AIRace.bin and Performance.bin. Use one HarderAI executable bundle and one replacement for each parameter file.
+The folder includes the native module, matching executable patch, AIRace.bin and Performance.bin. Use one CPU gameplay bundle and one replacement for each parameter file.
 
 **Tested platform:** Eden on Linux. Gameplay tuning focuses on **150cc**.
 

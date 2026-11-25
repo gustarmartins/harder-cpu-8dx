@@ -1,4 +1,4 @@
-# HarderAI Enhanced v0.2.1
+# Harder CPU Players Enhanced v0.2.1
 
 - Fixed missed Star, Boo and Super Horn defense reactions caused by native kart-proxy validation.
 - Fixed Star threat detection for incoming Bullet Bills using separate native racer proxies.
